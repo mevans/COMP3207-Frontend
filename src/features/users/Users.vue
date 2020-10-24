@@ -52,7 +52,7 @@ export default {
     deleteUser(id) {
       Api.deleteUser(id)
           .then(() => {
-            this.users = this.users.filter(user => user.rowKey !== id);
+            this.users = this.users.filter(user => user.id !== id);
             this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
             ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
           });

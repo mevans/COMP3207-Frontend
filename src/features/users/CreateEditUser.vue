@@ -58,22 +58,21 @@ export default {
           });
     },
     setupForm(user) {
-      this.firstName = user.FirstName;
-      this.lastName = user.LastName;
+      this.firstName = user.first_name;
+      this.lastName = user.first_name;
     },
     submit() {
+      const user = {first_name: this.firstName, last_name: this.lastName};
       this.actioning = true;
       // Create user
       if (this.create) {
-        const user = {first_name: this.firstName, last_name: this.lastName};
         Api.createUser(user)
             .then(() => {
               ToastService.createToast({title: 'Users', text: 'User successfully created'});
               this.navigateBack();
             });
       } else { // Update user
-        const user = {...this.user, FirstName: this.firstName, LastName: this.lastName};
-        Api.updateUser(user)
+        Api.updateUser({...user, id: this.id})
             .then(() => {
               ToastService.createToast({title: 'Users', text: 'User successfully updated'});
               this.navigateBack();

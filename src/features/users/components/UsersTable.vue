@@ -8,17 +8,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="user in users" v-bind:key="user.rowKey">
-      <th scope="row">{{ user.rowKey }}</th>
-      <td>{{ user.FirstName }}</td>
-      <td>{{ user.LastName }}</td>
+    <tr v-for="user in users" v-bind:key="user.id">
+      <th scope="row">{{ user.id }}</th>
+      <td>{{ user.first_name }}</td>
+      <td>{{ user.last_name }}</td>
       <td class="button-cell">
         <button class="btn btn-outline-primary">Checkins</button>
-        <router-link :to="{ name: 'EditUser', params: { id: user.rowKey }}" class="btn btn-outline-dark" tag="button">
+        <router-link :to="{ name: 'EditUser', params: { id: user.id }}" class="btn btn-outline-dark" tag="button">
           Edit
         </router-link>
-        <button :disabled="deletesInProgress.includes(user.rowKey)" class="btn btn-outline-danger"
-                @click="$emit('delete', user.rowKey)">Delete
+        <button :disabled="deletesInProgress.includes(user.id)" class="btn btn-outline-danger"
+                @click="$emit('delete', user.id)">Delete
         </button>
       </td>
     </tr>
