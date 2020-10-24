@@ -4,7 +4,13 @@
   </div>
   <template v-if="!initialising">
     <div class="users-container">
-      <UsersTable :deletes-in-progress="deletesInProgress" :users="users" @delete="deleteUser"></UsersTable>
+      <div class="input-group mb-3 search">
+        <input id="userSearch" v-model="search" class="form-control" placeholder="Search...">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
+        </div>
+      </div>
+      <UsersTable :deletes-in-progress="deletesInProgress" :users="filteredUsers" @delete="deleteUser"></UsersTable>
       <router-link class="btn btn-primary" tag="button" to="/users/create">
         Create New
       </router-link>
@@ -15,6 +21,7 @@
 import UsersTable from "@/features/users/components/UsersTable";
 import {Api} from "@/services/ApiService";
 import {ToastService} from "@/services/ToastService";
+import {identity, pickBy} from 'lodash';
 
 export default {
   name: "Users",
@@ -26,9 +33,16 @@ export default {
       initialising: true,
       users: [],
       deletesInProgress: [],
+      search: '',
+    }
+  },
+  computed: {
+    filteredUsers() {
+      return this.users.filter(user => Object.values(user).toString().toLowerCase().includes(this.search.toLowerCase()));
     }
   },
   mounted() {
+    this.search = this.$route.query['search'] || '';
     Api.getUsers().then(users => {
       this.users = users;
       this.initialising = false;
@@ -42,7 +56,16 @@ export default {
             this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
             ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
           });
+    },
+    clearSearch() {
+      this.search = '';
     }
+  },
+  watch: {
+    search(v) {
+      const query = pickBy({...this.$route.query, search: v}, identity);
+      this.$router.replace({query});
+    },
   }
 }
 </script>
@@ -51,5 +74,9 @@ export default {
 .users-container {
   padding: 2rem;
   width: 100%;
+}
+
+.search {
+  margin-bottom: 1rem;
 }
 </style>
