@@ -16,7 +16,9 @@
         <router-link :to="{ name: 'EditUser', params: { id: user.rowKey }}" class="btn btn-outline-info" tag="button">
           Edit
         </router-link>
-        <button class="btn btn-outline-danger" @click="$emit('delete', user.rowKey)">Delete</button>
+        <button :disabled="deletesInProgress.includes(user.rowKey)" class="btn btn-outline-danger"
+                @click="$emit('delete', user.rowKey)">Delete
+        </button>
       </td>
     </tr>
     </tbody>
@@ -31,7 +33,11 @@ export default {
     users: {
       type: Array,
       default: () => [],
-    }
+    },
+    deletesInProgress: {
+      type: Array,
+      default: () => [],
+    },
   },
 }
 </script>

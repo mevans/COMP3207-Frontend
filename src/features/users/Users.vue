@@ -4,7 +4,7 @@
   </div>
   <template v-if="!initialising">
     <div class="users-container">
-      <UsersTable :users="users"></UsersTable>
+      <UsersTable :deletes-in-progress="deletesInProgress" :users="users" @delete="deleteUser"></UsersTable>
       <router-link class="btn btn-primary" tag="button" to="/users/create">
         Create New
       </router-link>
@@ -24,6 +24,7 @@ export default {
     return {
       initialising: true,
       users: [],
+      deletesInProgress: [],
     }
   },
   mounted() {
@@ -31,6 +32,15 @@ export default {
       this.users = users;
       this.initialising = false;
     });
+  },
+  methods: {
+    deleteUser(id) {
+      Api.deleteUser(id)
+          .then(() => {
+            this.users = this.users.filter(user => user.rowKey !== id);
+            this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
+          });
+    }
   }
 }
 </script>

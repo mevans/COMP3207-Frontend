@@ -31,5 +31,9 @@ export const Api = {
     updateUser(user) {
         const code = 'M7QoWwQL80mAfRqm8f1ht/DpMvFTHaS1a2FZKjns3dJDjcOgrRsFFg==';
         return this.execute({method: 'PATCH', url: 'userupdate', code, data: user});
+    },
+    deleteUser(id) {
+        const code = 'Ik0G2BUeKt/okvUisPaWHiRNORxYSgTAhQZ6hRfSaeHdnGj/qaQ2Aw==';
+        return this.execute({method: 'DELETE', url: 'userdelete', code, params: {id}});
     }
 }
