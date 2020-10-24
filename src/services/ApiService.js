@@ -34,4 +34,17 @@ export const Api = {
     deleteUser(id) {
         return this.execute({method: 'DELETE', url: 'userdelete', params: {id}});
     },
+    /* Venues */
+    getVenues() {
+        return this.execute({method: 'GET', url: 'venueread'});
+    },
+    getVenue(id) {
+        return this.execute({method: 'GET', url: 'venueread', params: {id}});
+    },
+    createVenue(venue) {
+        return this.execute({method: 'POST', url: 'venuecreate', data: venue});
+    },
+    deleteVenue(id) {
+        return this.execute({method: 'DELETE', url: 'venuedelete', params: {id}});
+    }
 }

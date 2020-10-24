@@ -1,7 +1,7 @@
 <template>
-  <div v-if="initialising">
+  <template v-if="initialising">
     <div class="spinner-border" role="status"></div>
-  </div>
+  </template>
   <template v-if="!initialising">
     <div class="users-container">
       <div class="input-group mb-3 search">
