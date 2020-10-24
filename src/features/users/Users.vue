@@ -14,6 +14,7 @@
 <script>
 import UsersTable from "@/features/users/components/UsersTable";
 import {Api} from "@/services/ApiService";
+import {ToastService} from "@/services/ToastService";
 
 export default {
   name: "Users",
@@ -35,11 +36,12 @@ export default {
   },
   methods: {
     deleteUser(id) {
-      Api.deleteUser(id)
-          .then(() => {
-            this.users = this.users.filter(user => user.rowKey !== id);
-            this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
-          });
+      ToastService.createToast({text: 'User deleted: ' + id, title: 'Users'});
+      // Api.deleteUser(id)
+      //     .then(() => {
+      //       this.users = this.users.filter(user => user.rowKey !== id);
+      //       this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
+      //     });
     }
   }
 }
