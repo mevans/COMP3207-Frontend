@@ -24,7 +24,7 @@ export default {
     onAdd(toast) {
       const vNode = createVNode({
         render() {
-          return h('div', {class: 'toast', role: 'alert', style: 'opacity:1'}, [
+          return h('div', {class: 'toast', role: 'alert', style: 'opacity:1; z-index:1'}, [
             h('div', {class: 'toast-header'}, [
               h('strong', {class: 'mr-auto'}, toast.title),
               h('button', {
@@ -46,6 +46,7 @@ export default {
     onRemove(id) {
       const el = this.toastElements[id];
       render(null, el);
+      el.remove();
     },
   }
 }
@@ -56,5 +57,6 @@ export default {
   position: absolute;
   top: 1rem;
   right: 2rem;
+  z-index: 999;
 }
 </style>
