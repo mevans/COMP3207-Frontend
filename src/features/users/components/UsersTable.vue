@@ -13,7 +13,8 @@
       <td>{{ user.FirstName }}</td>
       <td>{{ user.LastName }}</td>
       <td class="button-cell">
-        <router-link :to="{ name: 'EditUser', params: { id: user.rowKey }}" class="btn btn-outline-info" tag="button">
+        <button class="btn btn-outline-primary">Checkins</button>
+        <router-link :to="{ name: 'EditUser', params: { id: user.rowKey }}" class="btn btn-outline-dark" tag="button">
           Edit
         </router-link>
         <button :disabled="deletesInProgress.includes(user.rowKey)" class="btn btn-outline-danger"
