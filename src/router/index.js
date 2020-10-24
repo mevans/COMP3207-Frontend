@@ -16,17 +16,6 @@ const routes = [
         name: 'UserList',
     },
     {
-        path: '/users/:id',
-        component: () => import('../features/users/CreateEditUser.vue'),
-        props: true,
-        name: 'EditUser'
-    },
-    {
-        path: '/users/create',
-        component: () => import('../features/users/CreateEditUser.vue'),
-        props: true,
-    },
-    {
         path: '/venues',
         component: () => import('../features/venues/Venues'),
     },

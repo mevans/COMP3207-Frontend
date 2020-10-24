@@ -10,10 +10,13 @@
           <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
         </div>
       </div>
-      <UsersTable :deletes-in-progress="deletesInProgress" :users="filteredUsers" @delete="deleteUser"></UsersTable>
-      <router-link class="btn btn-primary" tag="button" to="/users/create">
-        Create New
-      </router-link>
+      <UsersTable
+          :deletes-in-progress="deletesInProgress"
+          :users="filteredUsers"
+          @delete="deleteUser"
+          @edit="edit">
+      </UsersTable>
+      <button class="btn btn-primary" @click="createNew()">Create New</button>
     </div>
   </template>
 </template>
@@ -22,6 +25,8 @@ import UsersTable from "@/features/users/components/UsersTable";
 import {Api} from "@/services/ApiService";
 import {ToastService} from "@/services/ToastService";
 import {identity, pickBy} from 'lodash';
+import {ModalService} from "@/services/ModalService";
+import UserModal from "@/features/users/components/UserModal";
 
 export default {
   name: "Users",
@@ -60,6 +65,28 @@ export default {
     },
     clearSearch() {
       this.search = '';
+    },
+    edit(user) {
+      ModalService.showModal(UserModal, {user})
+          .then(user => {
+            if (user) return Api.updateUser(user);
+            return Promise.reject();
+          })
+          .then(user => {
+            this.users = [...this.users.filter(u => u.id !== user.id), user];
+            ToastService.createToast({title: 'Users', text: 'User successfully updated'});
+          });
+    },
+    createNew() {
+      ModalService.showModal(UserModal)
+          .then(user => {
+            if (user) return Api.createUser(user);
+            return Promise.reject();
+          })
+          .then(user => {
+            this.users.push(user);
+            ToastService.createToast({title: 'Users', text: 'User successfully created'});
+          });
     }
   },
   watch: {

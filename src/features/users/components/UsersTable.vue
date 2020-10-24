@@ -14,9 +14,7 @@
       <td>{{ user.last_name }}</td>
       <td class="button-cell">
         <button class="btn btn-outline-primary">Checkins</button>
-        <router-link :to="{ name: 'EditUser', params: { id: user.id }}" class="btn btn-outline-dark" tag="button">
-          Edit
-        </router-link>
+        <button class="btn btn-outline-dark" @click="$emit('edit', user)">Edit</button>
         <button :disabled="deletesInProgress.includes(user.id)" class="btn btn-outline-danger"
                 @click="$emit('delete', user.id)">Delete
         </button>
@@ -29,7 +27,7 @@
 <script>
 export default {
   name: "UsersTable",
-  emits: ['delete'],
+  emits: ['edit', 'delete'],
   props: {
     users: {
       type: Array,
