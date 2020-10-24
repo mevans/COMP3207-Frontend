@@ -1,39 +1,37 @@
 import axios from 'axios';
 
+const masterCode = 'UxokqFkAblY9TsHRiGadj/Kf7zShNpPxV4Vu9CisBiwyvJo1amXI7A==';
+
 const client = axios.create({
     baseURL: 'https://track-and-trace-functions.azurewebsites.net/api/',
+    params: {
+        code: masterCode,
+    },
 });
 
 export const Api = {
-    execute({method, url, code, data = {}, params = {}}) {
+    execute({method, url, data = {}, params = {}}) {
         return client({
             method,
             url,
             data,
-            params: {
-                ...params,
-                code,
-            },
+            params,
         }).then(res => res.data);
     },
+    /* Users */
     getUsers() {
-        const code = 'q1EppTCah1LQ2u9kOHSoUWmtz2l1PaRkYg1knE009hAJygZIpRvwdQ==';
-        return this.execute({method: 'GET', url: 'userread', code})
+        return this.execute({method: 'GET', url: 'userread'})
     },
     getUser(id) {
-        const code = 'q1EppTCah1LQ2u9kOHSoUWmtz2l1PaRkYg1knE009hAJygZIpRvwdQ==';
-        return this.execute({method: 'GET', url: 'userread', code, params: {id}});
+        return this.execute({method: 'GET', url: 'userread', params: {id}});
     },
     createUser(user) {
-        const code = 'se0caWzzaXGN7cK17aZHs7Wek/jI6Se4S4ZT/cqQljGVuzO88hDgCg==';
-        return this.execute({method: 'POST', url: 'usercreate', code, data: user});
+        return this.execute({method: 'POST', url: 'usercreate', data: user});
     },
     updateUser(user) {
-        const code = 'M7QoWwQL80mAfRqm8f1ht/DpMvFTHaS1a2FZKjns3dJDjcOgrRsFFg==';
-        return this.execute({method: 'PATCH', url: 'userupdate', code, data: user});
+        return this.execute({method: 'PATCH', url: 'userupdate', data: user});
     },
     deleteUser(id) {
-        const code = 'Ik0G2BUeKt/okvUisPaWHiRNORxYSgTAhQZ6hRfSaeHdnGj/qaQ2Aw==';
-        return this.execute({method: 'DELETE', url: 'userdelete', code, params: {id}});
-    }
+        return this.execute({method: 'DELETE', url: 'userdelete', params: {id}});
+    },
 }
