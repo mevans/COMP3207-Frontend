@@ -12,8 +12,9 @@
         Venues
       </router-link>
     </div>
-    <div class="report-container">
-      <button class="btn btn-primary report-button">Report Positive</button>
+    <div class="button-container">
+      <button class="btn btn-outline-primary">Check in Group</button>
+      <button class="btn btn-danger">Report Positive</button>
     </div>
   </div>
 </template>
@@ -28,19 +29,28 @@ export default {
 .sidebar {
   width: 250px;
   min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .list-group {
+  flex-grow: 1;
 }
 
 .header {
-  padding: 1rem 3rem;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
 }
 
-.report-container {
+.button-container {
   width: 100%;
   padding: 1rem 0;
 }
 
-.report-button {
+.button-container button {
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 0.5rem;
+  width: 80%;
 }
 </style>
