@@ -20,8 +20,13 @@ export default {
 
     this.containerElement = document.getElementById('modals-container');
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (this.modal && e.key === 'Escape') {
+        ModalService.dismiss();
+      }
+    });
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('modal-backdrop')) {
         ModalService.dismiss();
       }
     });
@@ -33,7 +38,6 @@ export default {
       const modalBackdrop = document.createElement('div');
       modalBackdrop.classList.add('modal-backdrop');
       modalBackdrop.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      modalBackdrop.onclick = () => ModalService.dismiss();
       const el = this.containerElement.appendChild(modalBackdrop);
       render(vNode, el);
       this.modal = el;
