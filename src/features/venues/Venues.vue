@@ -47,7 +47,10 @@ export default {
     },
     openModal: function (venue) {
       ModalService.showModal(VenueModal, {venue})
-          .then(venue => Api.createVenue(venue))
+          .then(venue => {
+            if (venue) return Api.createVenue(venue);
+            return Promise.reject();
+          })
           .then(venue => {
             this.venues.push(venue);
             ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
