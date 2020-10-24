@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     deleteUser(id) {
+      this.deletesInProgress.push(id);
       Api.deleteUser(id)
           .then(() => {
             this.users = this.users.filter(user => user.id !== id);

@@ -10,15 +10,11 @@
     <tr v-for="venue in venues" v-bind:key="venue.id">
       <th scope="row">{{ venue.id }}</th>
       <td>{{ venue.name }}</td>
-      <!--      <td class="button-cell">-->
-      <!--        <button class="btn btn-outline-primary">Checkins</button>-->
-      <!--        <router-link :to="{ name: 'EditUser', params: { id: user.id }}" class="btn btn-outline-dark" tag="button">-->
-      <!--          Edit-->
-      <!--        </router-link>-->
-      <!--        <button :disabled="deletesInProgress.includes(user.id)" class="btn btn-outline-danger"-->
-      <!--                @click="$emit('delete', user.id)">Delete-->
-      <!--        </button>-->
-      <!--      </td>-->
+      <td class="button-cell">
+        <button :disabled="deletesInProgress.includes(venue.id)" class="btn btn-outline-danger"
+                @click="$emit('delete', venue.id)">Delete
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -27,6 +23,7 @@
 <script>
 export default {
   name: "VenuesTable",
+  emits: ['delete'],
   props: {
     venues: {
       type: Array,
@@ -41,5 +38,11 @@ export default {
 </script>
 
 <style scoped>
+.button-cell * {
+  margin-right: 1rem;
+}
 
+.button-cell button:last-child {
+  margin-right: 0;
+}
 </style>
