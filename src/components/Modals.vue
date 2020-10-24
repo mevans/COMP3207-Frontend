@@ -19,15 +19,22 @@ export default {
     ModalService.initialise(this.show, this.dismiss);
 
     this.containerElement = document.getElementById('modals-container');
+
+    document.addEventListener('keydown', (e) => {
+      if (this.modal && e.key === 'Escape') {
+        ModalService.dismiss();
+      }
+    });
   },
   methods: {
     show(modal, props) {
       this.containerElement.style.display = 'block';
       const vNode = createVNode(modal, props);
-      const modalContainer = document.createElement('div');
-      modalContainer.classList.add('modal-backdrop');
-      modalContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      const el = this.containerElement.appendChild(modalContainer);
+      const modalBackdrop = document.createElement('div');
+      modalBackdrop.classList.add('modal-backdrop');
+      modalBackdrop.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      modalBackdrop.onclick = () => ModalService.dismiss();
+      const el = this.containerElement.appendChild(modalBackdrop);
       render(vNode, el);
       this.modal = el;
     },
