@@ -1,6 +1,6 @@
 export const ModalService = (() => {
-    let onShow = (m) => {
-        console.log(`showing modal: ${m}`);
+    let onShow = (m, props) => {
+        console.log(`showing modal: ${m} with props ${props}`);
     };
     let onDismiss = () => {
         console.log(`dismissing modal`);
@@ -11,8 +11,8 @@ export const ModalService = (() => {
             onShow = _onShow;
             onDismiss = _onDismiss;
         },
-        showModal(m) {
-            onShow(m);
+        showModal(m, props) {
+            onShow(m, props);
             return new Promise((_resolve) => {
                 resolve = _resolve;
             });

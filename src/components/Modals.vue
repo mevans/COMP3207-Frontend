@@ -21,9 +21,9 @@ export default {
     this.containerElement = document.getElementById('modals-container');
   },
   methods: {
-    show(modal) {
+    show(modal, props) {
       this.containerElement.style.display = 'block';
-      const vNode = createVNode(modal);
+      const vNode = createVNode(modal, props);
       const modalContainer = document.createElement('div');
       modalContainer.classList.add('modal-backdrop');
       modalContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
@@ -42,6 +42,7 @@ export default {
 
 <style scoped>
 #modals-container {
+  display: none;
   position: absolute;
   width: 100%;
   height: 100%;
