@@ -20,6 +20,7 @@
 
 <script>
 import {Api} from "@/services/ApiService";
+import {ToastService} from "@/services/ToastService";
 
 export default {
   name: "CreateEditUser",
@@ -66,11 +67,17 @@ export default {
       if (this.create) {
         const user = {first_name: this.firstName, last_name: this.lastName};
         Api.createUser(user)
-            .then(() => this.navigateBack());
+            .then(() => {
+              ToastService.createToast({title: 'Users', text: 'User successfully created'});
+              this.navigateBack();
+            });
       } else { // Update user
         const user = {...this.user, FirstName: this.firstName, LastName: this.lastName};
         Api.updateUser(user)
-            .then(() => this.navigateBack());
+            .then(() => {
+              ToastService.createToast({title: 'Users', text: 'User successfully updated'});
+              this.navigateBack();
+            });
       }
     },
     navigateBack() {

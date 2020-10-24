@@ -36,12 +36,12 @@ export default {
   },
   methods: {
     deleteUser(id) {
-      ToastService.createToast({text: 'User deleted: ' + id, title: 'Users'});
-      // Api.deleteUser(id)
-      //     .then(() => {
-      //       this.users = this.users.filter(user => user.rowKey !== id);
-      //       this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
-      //     });
+      Api.deleteUser(id)
+          .then(() => {
+            this.users = this.users.filter(user => user.rowKey !== id);
+            this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
+            ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
+          });
     }
   }
 }
