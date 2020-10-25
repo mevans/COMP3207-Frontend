@@ -28,24 +28,8 @@
             <input id="endDate" v-model="filterEndDate" class="form-control" type="date">
           </div>
         </div>
-        <div class="col">
-          <div class="form-check">
-            <input id="dateFilterStrict" v-model="filterDateMode" class="form-check-input" name="dateFilterMode"
-                   type="radio" value="strict">
-            <label class="form-check-label" for="dateFilterStrict">
-              Strict date range
-            </label>
-          </div>
-          <div class="form-check">
-            <input id="dateFilterFuzzy" v-model="filterDateMode" class="form-check-input" name="dateFilterMode"
-                   type="radio" value="fuzzy">
-            <label class="form-check-label" for="dateFilterFuzzy">
-              Fuzzy date range
-            </label>
-          </div>
-        </div>
-        <div class="col">
-          <button class="btn btn-outline-secondary" @click="resetFilter">Reset filters</button>
+        <div class="col-auto">
+          <button class="btn btn-outline-secondary reset-filters" @click="resetFilter">Reset filters</button>
         </div>
       </div>
     </div>
@@ -76,7 +60,6 @@ export default {
       filterUser: undefined,
       filterStartDate: undefined,
       filterEndDate: undefined,
-      filterDateMode: 'strict',
     }
   },
   mounted() {
@@ -84,14 +67,15 @@ export default {
     this.filterUser = this.$route.query['user'];
     this.filterStartDate = this.$route.query['start'];
     this.filterEndDate = this.$route.query['end'];
-    this.filterDateMode = this.$route.query['date-mode'] || 'strict';
   },
   computed: {
     filteredCheckins() {
       return this.checkins.filter(checkin => {
         const venueCorrect = !this.filterVenue || checkin.venue.id === this.filterVenue;
         const userCorrect = !this.filterUser || checkin.user.id === this.filterUser;
-        return venueCorrect && userCorrect;
+        const emptyDates = (!this.filterStartDate || !this.filterEndDate);
+        const dateCorrect = emptyDates || (new Date(checkin.arrive) >= new Date(this.filterStartDate) && new Date(checkin.leave) <= new Date(this.filterEndDate));
+        return venueCorrect && userCorrect && dateCorrect;
       });
     }
   },
@@ -108,9 +92,6 @@ export default {
     filterEndDate() {
       this.updateQueryParams();
     },
-    filterDateMode() {
-      this.updateQueryParams();
-    }
   },
   methods: {
     updateQueryParams() {
@@ -120,7 +101,6 @@ export default {
           user: this.filterUser,
           start: this.filterStartDate,
           end: this.filterEndDate,
-          dateMode: this.filterDateMode,
         },
       }, identity);
       this.$router.replace({query});
@@ -130,7 +110,6 @@ export default {
       this.filterUser = undefined;
       this.filterStartDate = undefined;
       this.filterEndDate = undefined;
-      this.filterDateMode = 'strict';
     }
   }
 }
@@ -152,5 +131,9 @@ export default {
 
 .filter .row:last-child {
   margin-bottom: 0;
+}
+
+.reset-filters {
+  height: 100%;
 }
 </style>
