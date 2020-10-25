@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <CheckinsTable :checkins="checkins"></CheckinsTable>
+    <CheckinsTable :checkins="filteredCheckins"></CheckinsTable>
   </div>
 </template>
 
@@ -52,17 +52,26 @@ export default {
     this.filterVenue = this.$route.query['venue'];
     this.filterUser = this.$route.query['user'];
   },
+  computed: {
+    filteredCheckins() {
+      return this.checkins.filter(checkin => {
+        const venueCorrect = !this.filterVenue || checkin.venue.id === this.filterVenue;
+        const userCorrect = !this.filterUser || checkin.user.id === this.filterUser;
+        return venueCorrect && userCorrect;
+      });
+    }
+  },
   watch: {
-    filterVenue(venue) {
-      this.updateQueryParams({venue});
+    filterVenue() {
+      this.updateQueryParams();
     },
-    filterUser(user) {
-      this.updateQueryParams({user});
+    filterUser() {
+      this.updateQueryParams();
     }
   },
   methods: {
-    updateQueryParams(data) {
-      const query = pickBy({...this.$route.query, ...data}, identity);
+    updateQueryParams() {
+      const query = pickBy({...this.$route.query, ...{venue: this.filterVenue, user: this.filterUser}}, identity);
       this.$router.replace({query});
     },
     resetFilter() {
