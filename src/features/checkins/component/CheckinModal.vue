@@ -14,7 +14,7 @@
                 <li v-for="user in checkedInUsers" v-bind:key="user.id"
                     class="list-group-item d-flex justify-content-between">
                   {{ user.first_name }}
-                  <button class="btn btn-danger btn-sm">&minus;</button>
+                  <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
                 </li>
               </ul>
               <div class="input-group">
@@ -96,6 +96,9 @@ export default {
     selectUser(user) {
       this.checkedInUserIds.push(user.id);
       this.userSearch = '';
+    },
+    removeUser(id) {
+      this.checkedInUserIds = this.checkedInUserIds.filter(i => i !== id);
     },
   }
 }
