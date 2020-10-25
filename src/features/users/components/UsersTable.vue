@@ -11,7 +11,9 @@
       <th scope="row">{{ user.id }}</th>
       <td>{{ user.name }}</td>
       <td class="button-cell">
-        <button class="btn btn-outline-primary">Checkins</button>
+        <router-link :to="{name: 'Checkins', query: {user: user.id}}" class="btn btn-outline-primary" tag="button">
+          Checkins
+        </router-link>
         <button class="btn btn-outline-dark" @click="$emit('edit', user)">Edit</button>
         <button :disabled="deletesInProgress.includes(user.id)" class="btn btn-outline-danger"
                 @click="$emit('delete', user.id)">Delete

@@ -21,6 +21,7 @@ const routes = [
     {
         path: '/checkins',
         component: () => import('../features/checkins/Checkins'),
+        name: 'Checkins',
     },
 ]
 
