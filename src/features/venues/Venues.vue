@@ -1,59 +1,49 @@
 <template>
-  <template v-if="initialising">
-    <div class="spinner-border" role="status"></div>
-  </template>
-  <template v-if="!initialising">
-    <div class="venues-container">
-      <VenuesTable :deletes-in-progress="deletesInProgress" :venues="venues" @delete="deleteVenue"></VenuesTable>
-      <button class="btn btn-primary" @click="openModal()">Create New</button>
-    </div>
-  </template>
+  <div class="venues-container">
+    <VenuesTable :deletes-in-progress="deletesInProgress" :venues="venues" @delete="deleteVenue"></VenuesTable>
+    <button class="btn btn-primary" @click="createNew">Create New</button>
+  </div>
 </template>
 
 <script>
 import VenuesTable from "@/features/venues/components/VenuesTable";
-import {Api} from "@/shared/services/ApiService";
 import {ToastService} from "@/shared/services/ToastService";
 import {ModalService} from "@/shared/services/ModalService";
 import VenueModal from "@/features/venues/components/VenueModal";
+import {Selectors} from "@/shared/services/Store";
+import {ApiService} from "@/shared/services/ApiService";
 
 export default {
   name: "Venues",
   components: {
     VenuesTable,
   },
+  setup() {
+    return {
+      venues: Selectors.venues,
+    }
+  },
   data() {
     return {
-      initialising: true,
-      venues: [],
       deletesInProgress: [],
     };
-  },
-  mounted() {
-    Api.getVenues().then(venues => {
-      this.venues = venues;
-      this.initialising = false;
-    });
   },
   methods: {
     deleteVenue(id) {
       this.deletesInProgress.push(id);
-      Api.deleteVenue(id)
+      ApiService.deleteVenue(id)
           .then(() => {
-            this.venues = this.venues.filter(user => user.id !== id);
             this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
             ToastService.createToast({text: 'Venue successfully deleted', title: 'Venues'});
           });
     },
-    openModal: function (venue) {
-      ModalService.showModal(VenueModal, {venue})
+    createNew() {
+      ModalService.showModal(VenueModal)
           .then(venue => {
-            if (venue) return Api.createVenue(venue);
-            return Promise.reject();
-          })
-          .then(venue => {
-            this.venues.push(venue);
-            ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
+            if (venue) {
+              ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
+              return ApiService.createVenue(venue);
+            }
           });
     }
   }

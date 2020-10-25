@@ -1,9 +1,14 @@
 <template>
   <div id="app-container" class="d-flex">
-    <Sidebar></Sidebar>
-    <router-view/>
-    <Toasts></Toasts>
-    <Modals></Modals>
+    <template v-if="initialising">
+      <div class="spinner-border" role="status"></div>
+    </template>
+    <template v-else>
+      <Sidebar></Sidebar>
+      <router-view/>
+      <Toasts></Toasts>
+      <Modals></Modals>
+    </template>
   </div>
 </template>
 
@@ -11,6 +16,8 @@
 import Sidebar from "@/core/sidebar/Sidebar";
 import Toasts from "@/core/Toasts";
 import Modals from "@/core/Modals";
+import {Selectors, Store} from "@/shared/services/Store";
+import {ApiService} from "@/shared/services/ApiService";
 
 export default {
   name: "App",
@@ -18,6 +25,17 @@ export default {
     Sidebar,
     Toasts,
     Modals,
+  },
+  setup() {
+    return {
+      initialising: Selectors.initialising,
+    }
+  },
+  mounted() {
+    Store.initialise();
+    ApiService.addListener('users', Store.refreshUsers);
+    ApiService.addListener('venues', Store.refreshVenues);
+    ApiService.addListener('checkins', Store.refreshCheckins);
   },
 }
 </script>
