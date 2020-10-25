@@ -5,7 +5,7 @@
       <Nav></Nav>
     </div>
     <div class="button-container">
-      <button class="btn btn-outline-primary">Check in Group</button>
+      <button class="btn btn-outline-primary" @click="checkinGroup">Check in Group</button>
       <button class="btn btn-danger">Report Positive</button>
     </div>
   </div>
@@ -13,11 +13,18 @@
 
 <script>
 import Nav from "@/core/sidebar/Nav";
+import {ModalService} from "@/shared/services/ModalService";
+import CheckinModal from "@/features/checkins/component/CheckinModal";
 
 export default {
   name: "Sidebar",
   components: {
     Nav,
+  },
+  methods: {
+    checkinGroup() {
+      ModalService.showModal(CheckinModal);
+    }
   }
 }
 </script>

@@ -13,7 +13,6 @@ const routes = [
     {
         path: '/users',
         component: () => import('../features/users/Users'),
-        name: 'UserList',
     },
     {
         path: '/venues',
