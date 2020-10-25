@@ -17,6 +17,34 @@
       </div>
       <div class="row">
         <div class="col">
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input id="startDate" v-model="filterStartDate" class="form-control" type="date">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input id="endDate" v-model="filterEndDate" class="form-control" type="date">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check">
+            <input id="dateFilterStrict" v-model="filterDateMode" class="form-check-input" name="dateFilterMode"
+                   type="radio" value="strict">
+            <label class="form-check-label" for="dateFilterStrict">
+              Strict date range
+            </label>
+          </div>
+          <div class="form-check">
+            <input id="dateFilterFuzzy" v-model="filterDateMode" class="form-check-input" name="dateFilterMode"
+                   type="radio" value="fuzzy">
+            <label class="form-check-label" for="dateFilterFuzzy">
+              Fuzzy date range
+            </label>
+          </div>
+        </div>
+        <div class="col">
           <button class="btn btn-outline-secondary" @click="resetFilter">Reset filters</button>
         </div>
       </div>
@@ -46,11 +74,17 @@ export default {
     return {
       filterVenue: undefined,
       filterUser: undefined,
+      filterStartDate: undefined,
+      filterEndDate: undefined,
+      filterDateMode: 'strict',
     }
   },
   mounted() {
     this.filterVenue = this.$route.query['venue'];
     this.filterUser = this.$route.query['user'];
+    this.filterStartDate = this.$route.query['start'];
+    this.filterEndDate = this.$route.query['end'];
+    this.filterDateMode = this.$route.query['date-mode'] || 'strict';
   },
   computed: {
     filteredCheckins() {
@@ -67,16 +101,36 @@ export default {
     },
     filterUser() {
       this.updateQueryParams();
+    },
+    filterStartDate() {
+      this.updateQueryParams();
+    },
+    filterEndDate() {
+      this.updateQueryParams();
+    },
+    filterDateMode() {
+      this.updateQueryParams();
     }
   },
   methods: {
     updateQueryParams() {
-      const query = pickBy({...this.$route.query, ...{venue: this.filterVenue, user: this.filterUser}}, identity);
+      const query = pickBy({
+        ...this.$route.query, ...{
+          venue: this.filterVenue,
+          user: this.filterUser,
+          start: this.filterStartDate,
+          end: this.filterEndDate,
+          dateMode: this.filterDateMode,
+        },
+      }, identity);
       this.$router.replace({query});
     },
     resetFilter() {
       this.filterVenue = undefined;
       this.filterUser = undefined;
+      this.filterStartDate = undefined;
+      this.filterEndDate = undefined;
+      this.filterDateMode = 'strict';
     }
   }
 }
