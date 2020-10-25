@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     checkinGroup() {
-      ModalService.showModal(CheckinModal);
+      ModalService.showModal(CheckinModal).then(console.log);
     }
   }
 }
