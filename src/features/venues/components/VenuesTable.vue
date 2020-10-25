@@ -11,6 +11,9 @@
       <th scope="row">{{ venue.id }}</th>
       <td>{{ venue.name }}</td>
       <td class="button-cell">
+        <router-link :to="{name: 'Checkins', query: {venue: venue.id}}" class="btn btn-outline-primary" tag="button">
+          Visitors
+        </router-link>
         <button :disabled="deletesInProgress.includes(venue.id)" class="btn btn-outline-danger"
                 @click="$emit('delete', venue.id)">Delete
         </button>
