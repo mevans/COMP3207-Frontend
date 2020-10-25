@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {ModalService} from "@/services/ModalService";
+import {ModalService} from "@/shared/services/ModalService";
 import {render} from "@vue/runtime-dom";
 import {createVNode} from "@vue/runtime-core";
 

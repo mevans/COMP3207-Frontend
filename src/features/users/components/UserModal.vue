@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import ModalTemplate from "@/components/ModalTemplate";
-import {ModalService} from "@/services/ModalService";
+import ModalTemplate from "@/shared/components/ModalTemplate";
+import {ModalService} from "@/shared/services/ModalService";
 
 export default {
   name: "UserModal",

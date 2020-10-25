@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import {ModalService} from "@/services/ModalService";
+
+import {ModalService} from "@/shared/services/ModalService";
 
 export default {
   name: "ModalTemplate",

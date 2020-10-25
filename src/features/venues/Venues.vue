@@ -12,9 +12,9 @@
 
 <script>
 import VenuesTable from "@/features/venues/components/VenuesTable";
-import {Api} from "@/services/ApiService";
-import {ToastService} from "@/services/ToastService";
-import {ModalService} from "@/services/ModalService";
+import {Api} from "@/shared/services/ApiService";
+import {ToastService} from "@/shared/services/ToastService";
+import {ModalService} from "@/shared/services/ModalService";
 import VenueModal from "@/features/venues/components/VenueModal";
 
 export default {

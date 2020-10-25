@@ -22,10 +22,10 @@
 </template>
 <script>
 import UsersTable from "@/features/users/components/UsersTable";
-import {Api} from "@/services/ApiService";
-import {ToastService} from "@/services/ToastService";
+import {Api} from "@/shared/services/ApiService";
+import {ToastService} from "@/shared/services/ToastService";
 import {identity, pickBy} from 'lodash';
-import {ModalService} from "@/services/ModalService";
+import {ModalService} from "@/shared/services/ModalService";
 import UserModal from "@/features/users/components/UserModal";
 
 export default {

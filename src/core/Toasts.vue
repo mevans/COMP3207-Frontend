@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {ToastService} from "@/services/ToastService";
+import {ToastService} from "@/shared/services/ToastService";
 import {createVNode, h} from "@vue/runtime-core";
 import {render} from "@vue/runtime-dom";
 

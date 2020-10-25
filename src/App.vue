@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Sidebar from "./components/Sidebar";
-import Toasts from "@/components/Toasts";
-import Modals from "@/components/Modals";
+import Sidebar from "@/core/sidebar/Sidebar";
+import Toasts from "@/core/Toasts";
+import Modals from "@/core/Modals";
 
 export default {
   name: "App",

@@ -2,15 +2,7 @@
   <div class="sidebar bg-light border-right">
     <h2 class="header">Trace & Test</h2>
     <div class="list-group list-group-flush">
-      <router-link class="list-group-item list-group-item-action" exact-active-class="active" to="/home">
-        Home
-      </router-link>
-      <router-link class="list-group-item list-group-item-action" exact-active-class="active" to="/users">
-        Users
-      </router-link>
-      <router-link class="list-group-item list-group-item-action" exact-active-class="active" to="/venues">
-        Venues
-      </router-link>
+      <Nav></Nav>
     </div>
     <div class="button-container">
       <button class="btn btn-outline-primary">Check in Group</button>
@@ -20,8 +12,13 @@
 </template>
 
 <script>
+import Nav from "@/core/sidebar/Nav";
+
 export default {
   name: "Sidebar",
+  components: {
+    Nav,
+  }
 }
 </script>
 
