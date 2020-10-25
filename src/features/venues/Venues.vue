@@ -1,5 +1,5 @@
 <template>
-  <div class="venues-container">
+  <div class="container venues-container">
     <div class="input-group mb-3">
       <input id="venueSearch" v-model="search" class="form-control" placeholder="Search...">
       <div class="input-group-append">

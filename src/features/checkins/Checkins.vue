@@ -1,5 +1,5 @@
 <template>
-  <div class="checkins-container">
+  <div class="container checkins-container">
     <div class="filter border border-bottom-0">
       <div class="row">
         <div class="col">

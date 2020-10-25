@@ -1,5 +1,5 @@
 <template>
-  <div class="users-container">
+  <div class="container users-container">
     <div class="input-group mb-3">
       <input id="userSearch" v-model="search" class="form-control" placeholder="Search...">
       <div class="input-group-append">
