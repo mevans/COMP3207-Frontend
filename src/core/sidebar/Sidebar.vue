@@ -23,10 +23,11 @@ export default {
     Nav,
   },
   methods: {
-    checkinGroup() {
-      ModalService.showModal(CheckinModal)
-          .then(checkin => ApiService.createCheckin(checkin));
-    }
+    async checkinGroup() {
+      const checkin = await ModalService.showModal(CheckinModal);
+      if (!checkin) return;
+      await ApiService.createCheckin(checkin);
+    },
   }
 }
 </script>
