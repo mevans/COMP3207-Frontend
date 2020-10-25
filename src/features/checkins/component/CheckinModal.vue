@@ -17,25 +17,13 @@
                   <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
                 </li>
               </ul>
-              <div class="input-group">
-                <input
-                    v-model="userSearch"
-                    class="form-control"
-                    placeholder="Search User..."
-                    type="text"
-                    @focusin="userInputFocused = true"
-                    @focusout="userInputFocused = false">
-              </div>
-              <div ref="userDropdown" :style="dropdownStyle" aria-labelledby="dropdownMenuButton" class="dropdown-menu">
-                <a v-for="user in filteredUsers"
-                   v-bind:key="user.id"
-                   class="dropdown-item"
-                   href="#"
-                   @click="selectUser(user)">
-                  {{ user.first_name }}
-                </a>
-                <a v-if="filteredUsers.length === 0" class="dropdown-item disabled">No results</a>
-              </div>
+              <SearchSelect
+                  :display-fn="user => user.first_name"
+                  :items="filteredUsers"
+                  :key-fn="user => user.id"
+                  placeholder="Search User..."
+                  @select="onSelect">
+              </SearchSelect>
             </div>
             <div class="col">
               <h2>Info</h2>
@@ -50,19 +38,19 @@
 <script>
 import ModalTemplate from "@/shared/components/ModalTemplate";
 import {Api} from "@/shared/services/ApiService";
+import SearchSelect from "@/shared/components/SearchSelect";
 
 export default {
   name: "CheckinModal",
   components: {
     ModalTemplate,
+    SearchSelect,
   },
   data() {
     return {
       initialising: true,
       users: [],
       venues: [],
-      userSearch: '',
-      selectedUser: undefined,
       checkedInUserIds: [],
       userInputFocused: false,
     };
@@ -79,23 +67,15 @@ export default {
   },
   computed: {
     filteredUsers() {
-      return this.users.filter(user =>
-          !this.checkedInUserIds.includes(user.id)
-          && Object.values(user).toString().toLowerCase().includes(this.userSearch.toLowerCase())
-      );
+      return this.users.filter(user => !this.checkedInUserIds.includes(user.id));
     },
     checkedInUsers() {
       return this.checkedInUserIds.map(id => this.users.find(u => u.id === id)).filter(v => !!v);
     },
-    dropdownStyle() {
-      const show = this.userSearch;
-      return {display: show ? 'block' : 'none'};
-    }
   },
   methods: {
-    selectUser(user) {
+    onSelect(user) {
       this.checkedInUserIds.push(user.id);
-      this.userSearch = '';
     },
     removeUser(id) {
       this.checkedInUserIds = this.checkedInUserIds.filter(i => i !== id);
@@ -105,11 +85,6 @@ export default {
 </script>
 
 <style scoped>
-.dropdown-menu {
-  top: unset;
-  left: unset;
-}
-
 .selected-users-list {
   margin-bottom: 1rem;
 }
