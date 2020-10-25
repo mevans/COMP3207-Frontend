@@ -46,5 +46,9 @@ export const Api = {
     },
     deleteVenue(id) {
         return this.execute({method: 'DELETE', url: 'venuedelete', params: {id}});
+    },
+    /* Checkins */
+    createCheckin(checkin) {
+        return this.execute({method: 'POST', url: 'checkincreate', data: checkin});
     }
 }
