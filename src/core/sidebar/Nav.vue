@@ -9,6 +9,7 @@ export default {
       {path: '/home', title: 'Home'},
       {path: '/users', title: 'Users'},
       {path: '/venues', title: 'Venues'},
+      {path: '/checkins', title: 'Checkins'},
     ];
     return h('div',
         navItems.map(({path, title}) => {

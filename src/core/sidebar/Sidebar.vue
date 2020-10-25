@@ -15,7 +15,7 @@
 import Nav from "@/core/sidebar/Nav";
 import {ModalService} from "@/shared/services/ModalService";
 import CheckinModal from "@/features/checkins/component/CheckinModal";
-import {Api} from "@/shared/services/ApiService";
+import {ApiService} from "@/shared/services/ApiService";
 
 export default {
   name: "Sidebar",
@@ -24,9 +24,8 @@ export default {
   },
   methods: {
     checkinGroup() {
-      ModalService.showModal(CheckinModal).then(checkin => {
-        Api.createCheckin(checkin);
-      });
+      ModalService.showModal(CheckinModal)
+          .then(checkin => ApiService.createCheckin(checkin));
     }
   }
 }

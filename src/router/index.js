@@ -18,6 +18,10 @@ const routes = [
         path: '/venues',
         component: () => import('../features/venues/Venues'),
     },
+    {
+        path: '/checkins',
+        component: () => import('../features/checkins/Checkins'),
+    },
 ]
 
 const router = createRouter({

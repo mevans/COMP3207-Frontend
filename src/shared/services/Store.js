@@ -1,4 +1,4 @@
-import {reactive, ref} from "@vue/reactivity";
+import {computed, reactive, ref} from "@vue/reactivity";
 import {ApiService} from "@/shared/services/ApiService";
 
 export const Store = (() => {
@@ -35,4 +35,15 @@ export const Selectors = {
     initialising: Store.initialising,
     users: Store.select('users'),
     venues: Store.select('venues'),
+    checkins: Store.select('checkins'),
+    nestedCheckins: computed(() => {
+        const checkins = Store.select('checkins');
+        const users = Store.select('users');
+        const venues = Store.select('venues');
+        return checkins.map(checkin => ({
+            ...checkin,
+            venue: venues.find(v => v.id === checkin.venue),
+            user: users.find(u => u.id === checkin.user),
+        }));
+    })
 };
