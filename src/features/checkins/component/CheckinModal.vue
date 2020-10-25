@@ -10,12 +10,12 @@
               <ul class="list-group selected-users-list">
                 <li v-for="user in checkedInUsers" v-bind:key="user.id"
                     class="list-group-item d-flex justify-content-between">
-                  {{ user.first_name }}
+                  {{ user.name }}
                   <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
                 </li>
               </ul>
               <SearchSelect
-                  :display-fn="user => user.first_name"
+                  :display-fn="user => user.name"
                   :items="filteredUsers"
                   :key-fn="user => user.id"
                   placeholder="Search User..."

@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     filteredUsers() {
-      return this.users.filter(user => Object.values(user).toString().toLowerCase().includes(this.search.toLowerCase()));
+      return this.users.filter(user => user.name.toLowerCase().includes(this.search.toLowerCase()));
     }
   },
   mounted() {

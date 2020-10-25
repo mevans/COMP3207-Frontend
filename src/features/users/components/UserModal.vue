@@ -8,12 +8,8 @@
           <input id="idInput" v-model="id" :disabled="true" class="form-control">
         </div>
         <div class="form-group">
-          <label for="firstNameInput">First Name</label>
-          <input id="firstNameInput" v-model="firstName" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="lastNameInput">Last Name</label>
-          <input id="lastNameInput" v-model="lastName" class="form-control">
+          <label for="nameInput">Name</label>
+          <input id="nameInput" v-model="name" class="form-control">
         </div>
       </template>
       <template v-slot:footer>
@@ -38,16 +34,14 @@ export default {
     return {
       create: undefined,
       id: undefined,
-      firstName: undefined,
-      lastName: undefined,
+      name: undefined,
     };
   },
   mounted() {
     this.create = !this.user;
     if (!this.create) {
       this.id = this.user.id;
-      this.firstName = this.user.first_name;
-      this.lastName = this.user.last_name;
+      this.name = this.user.name;
     }
   },
   computed: {
@@ -60,7 +54,7 @@ export default {
   },
   methods: {
     action() {
-      const user = {id: this.id, first_name: this.firstName, last_name: this.lastName};
+      const user = {id: this.id, name: this.name};
       ModalService.dismiss(user);
     },
     close() {

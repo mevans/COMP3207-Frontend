@@ -13,7 +13,7 @@
     <tr v-for="checkin in checkins" v-bind:key="checkin.id">
       <th scope="row">{{ checkin.id }}</th>
       <td>{{ checkin.venue.name }}</td>
-      <td>{{ checkin.user?.first_name }}</td>
+      <td>{{ checkin.user?.name }}</td>
       <td>{{ checkin.arrive }}</td>
       <td>{{ checkin.leave }}</td>
     </tr>

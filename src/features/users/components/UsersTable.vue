@@ -3,15 +3,13 @@
     <thead>
     <tr>
       <th scope="col">Id</th>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
+      <th scope="col">Name</th>
     </tr>
     </thead>
     <tbody>
     <tr v-for="user in users" v-bind:key="user.id">
       <th scope="row">{{ user.id }}</th>
-      <td>{{ user.first_name }}</td>
-      <td>{{ user.last_name }}</td>
+      <td>{{ user.name }}</td>
       <td class="button-cell">
         <button class="btn btn-outline-primary">Checkins</button>
         <button class="btn btn-outline-dark" @click="$emit('edit', user)">Edit</button>
