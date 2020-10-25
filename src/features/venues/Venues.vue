@@ -29,22 +29,20 @@ export default {
     };
   },
   methods: {
-    deleteVenue(id) {
+    async deleteVenue(id) {
       this.deletesInProgress.push(id);
-      ApiService.deleteVenue(id)
-          .then(() => {
-            this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
-            ToastService.createToast({text: 'Venue successfully deleted', title: 'Venues'});
-          });
+      const confirm = await ModalService.showConfirmationModal({message: 'Are you sure you want to delete this venue?'});
+      if (confirm) {
+        await ApiService.deleteVenue(id);
+        ToastService.createToast({text: 'Venue successfully deleted', title: 'Venues'});
+      }
+      this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
     },
-    createNew() {
-      ModalService.showModal(VenueModal)
-          .then(venue => {
-            if (venue) {
-              ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
-              return ApiService.createVenue(venue);
-            }
-          });
+    async createNew() {
+      const venueCreate = await ModalService.showModal(VenueModal);
+      if (!venueCreate) return;
+      await ApiService.createVenue(venueCreate);
+      ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
     }
   }
 }

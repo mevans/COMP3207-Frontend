@@ -1,3 +1,5 @@
+import ConfirmationModal from "@/shared/components/ConfirmationModal";
+
 export const ModalService = (() => {
     let onShow = (m, props) => {
         console.log(`showing modal: ${m} with props ${props}`);
@@ -13,6 +15,12 @@ export const ModalService = (() => {
         },
         showModal(m, props) {
             onShow(m, props);
+            return new Promise((_resolve) => {
+                resolve = _resolve;
+            });
+        },
+        showConfirmationModal(data) {
+            onShow(ConfirmationModal, data);
             return new Promise((_resolve) => {
                 resolve = _resolve;
             });

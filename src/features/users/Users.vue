@@ -49,35 +49,30 @@ export default {
     this.search = this.$route.query['search'] || '';
   },
   methods: {
-    deleteUser(id) {
+    async deleteUser(id) {
       this.deletesInProgress.push(id);
-      ApiService.deleteUser(id)
-          .then(() => {
-            this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
-            ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
-          });
+      const confirm = await ModalService.showConfirmationModal({message: 'Are you sure you want to delete this user?'});
+      if (confirm) {
+        await ApiService.deleteUser(id);
+        ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
+      }
+      this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
+    },
+    async edit(user) {
+      const userUpdate = await ModalService.showModal(UserModal, {user});
+      if (!userUpdate) return;
+      await ApiService.updateUser(userUpdate);
+      ToastService.createToast({title: 'Users', text: 'User successfully updated'});
+    },
+    async createNew() {
+      const userCreate = await ModalService.showModal(UserModal);
+      if (!userCreate) return;
+      await ApiService.createUser(userCreate);
+      ToastService.createToast({title: 'Users', text: 'User successfully created'});
     },
     clearSearch() {
       this.search = '';
     },
-    edit(user) {
-      ModalService.showModal(UserModal, {user})
-          .then(user => {
-            if (user) {
-              ToastService.createToast({title: 'Users', text: 'User successfully updated'});
-              return ApiService.updateUser(user);
-            }
-          });
-    },
-    createNew() {
-      ModalService.showModal(UserModal)
-          .then(user => {
-            if (user) {
-              ToastService.createToast({title: 'Users', text: 'User successfully created'});
-              return ApiService.createUser(user);
-            }
-          });
-    }
   },
   watch: {
     search(v) {
