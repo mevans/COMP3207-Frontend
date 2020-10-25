@@ -6,7 +6,7 @@
     </div>
     <div class="button-container">
       <button class="btn btn-outline-primary" @click="checkinGroup">Check in Group</button>
-      <button class="btn btn-danger">Report Positive</button>
+      <button class="btn btn-danger" @click="reportUser">Report Positive</button>
     </div>
   </div>
 </template>
@@ -16,6 +16,7 @@ import Nav from "@/core/sidebar/Nav";
 import {ModalService} from "@/shared/services/ModalService";
 import CheckinModal from "@/features/checkins/component/CheckinModal";
 import {ApiService} from "@/shared/services/ApiService";
+import ReportModal from "@/features/report/components/ReportModal";
 
 export default {
   name: "Sidebar",
@@ -28,6 +29,10 @@ export default {
       if (!checkin) return;
       await ApiService.createCheckin(checkin);
     },
+    reportUser() {
+      ModalService.showModal(ReportModal)
+          .then(user => console.log(user));
+    }
   }
 }
 </script>
