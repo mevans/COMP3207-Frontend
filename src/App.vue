@@ -4,7 +4,7 @@
       <div class="spinner-border" role="status"></div>
     </template>
     <template v-else>
-      <Sidebar></Sidebar>
+      <Sidebar @checkin="checkin" @report="report"></Sidebar>
       <router-view/>
       <Toasts></Toasts>
       <Modals></Modals>
@@ -18,6 +18,10 @@ import Toasts from "@/core/Toasts";
 import Modals from "@/core/Modals";
 import {Selectors, Store} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
+import {ModalService} from "@/shared/services/ModalService";
+import CheckinModal from "@/features/checkins/component/CheckinModal";
+import ReportModal from "@/features/report/components/ReportModal";
+import {ToastService} from "@/shared/services/ToastService";
 
 export default {
   name: "App",
@@ -37,6 +41,19 @@ export default {
     ApiService.addListener('venues', Store.refreshVenues);
     ApiService.addListener('checkins', Store.refreshCheckins);
   },
+  methods: {
+    async checkin() {
+      const checkin = await ModalService.showModal(CheckinModal);
+      if (!checkin) return;
+      await ApiService.createCheckin(checkin);
+    },
+    async report() {
+      const user = await ModalService.showModal(ReportModal);
+      if (!user) return;
+      await ApiService.reportUser(user);
+      ToastService.createToast({title: 'Reported Positive', text: 'User successfully reported positive for COVID-19'});
+    }
+  }
 }
 </script>
 

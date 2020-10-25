@@ -63,7 +63,11 @@ export const ApiService = (() => {
         },
         createCheckin(checkin) {
             return execute({topic: 'checkins', method: 'POST', url: 'checkincreate', data: checkin});
-        }
+        },
+        /* Reports */
+        reportUser(id) {
+            return execute({method: 'POST', url: 'reportpositive', params: {id}});
+        },
     };
     return controller;
 })();

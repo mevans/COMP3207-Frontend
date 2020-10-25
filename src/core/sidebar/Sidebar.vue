@@ -5,35 +5,21 @@
       <Nav></Nav>
     </div>
     <div class="button-container">
-      <button class="btn btn-outline-primary" @click="checkinGroup">Check in Group</button>
-      <button class="btn btn-danger" @click="reportUser">Report Positive</button>
+      <button class="btn btn-outline-primary" @click="$emit('checkin')">Check in Group</button>
+      <button class="btn btn-danger" @click="$emit('report')">Report Positive</button>
     </div>
   </div>
 </template>
 
 <script>
 import Nav from "@/core/sidebar/Nav";
-import {ModalService} from "@/shared/services/ModalService";
-import CheckinModal from "@/features/checkins/component/CheckinModal";
-import {ApiService} from "@/shared/services/ApiService";
-import ReportModal from "@/features/report/components/ReportModal";
 
 export default {
   name: "Sidebar",
   components: {
     Nav,
   },
-  methods: {
-    async checkinGroup() {
-      const checkin = await ModalService.showModal(CheckinModal);
-      if (!checkin) return;
-      await ApiService.createCheckin(checkin);
-    },
-    reportUser() {
-      ModalService.showModal(ReportModal)
-          .then(user => console.log(user));
-    }
-  }
+  emits: ['checkin', 'report'],
 }
 </script>
 
