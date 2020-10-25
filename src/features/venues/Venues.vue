@@ -1,6 +1,12 @@
 <template>
   <div class="venues-container">
-    <VenuesTable :deletes-in-progress="deletesInProgress" :venues="venues" @delete="deleteVenue"></VenuesTable>
+    <div class="input-group mb-3">
+      <input id="venueSearch" v-model="search" class="form-control" placeholder="Search...">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
+      </div>
+    </div>
+    <VenuesTable :deletes-in-progress="deletesInProgress" :venues="filteredVenues" @delete="deleteVenue"></VenuesTable>
     <button class="btn btn-primary" @click="createNew">Create New</button>
   </div>
 </template>
@@ -12,6 +18,7 @@ import {ModalService} from "@/shared/services/ModalService";
 import VenueModal from "@/features/venues/components/VenueModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
+import {identity, pickBy} from "lodash";
 
 export default {
   name: "Venues",
@@ -26,7 +33,16 @@ export default {
   data() {
     return {
       deletesInProgress: [],
+      search: '',
     };
+  },
+  computed: {
+    filteredVenues() {
+      return this.venues.filter(venue => venue.name.toLowerCase().includes(this.search.toLowerCase()));
+    }
+  },
+  mounted() {
+    this.search = this.$route.query['search'] || '';
   },
   methods: {
     async deleteVenue(id) {
@@ -43,7 +59,16 @@ export default {
       if (!venueCreate) return;
       await ApiService.createVenue(venueCreate);
       ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
-    }
+    },
+    clearSearch() {
+      this.search = '';
+    },
+  },
+  watch: {
+    search(v) {
+      const query = pickBy({...this.$route.query, search: v}, identity);
+      this.$router.replace({query});
+    },
   }
 }
 </script>

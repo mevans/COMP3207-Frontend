@@ -1,6 +1,6 @@
 <template>
   <div class="users-container">
-    <div class="input-group mb-3 search">
+    <div class="input-group mb-3">
       <input id="userSearch" v-model="search" class="form-control" placeholder="Search...">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
@@ -87,9 +87,5 @@ export default {
 .users-container {
   padding: 2rem;
   width: 100%;
-}
-
-.search {
-  margin-bottom: 1rem;
 }
 </style>
