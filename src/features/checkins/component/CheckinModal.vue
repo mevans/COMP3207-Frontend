@@ -14,13 +14,15 @@
                   <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
                 </li>
               </ul>
-              <SearchSelect
+              <SearchSelector
+                  v-model="currentUser"
+                  class="mb-3"
                   :display-fn="user => user.name"
                   :items="filteredUsers"
                   :key-fn="user => user.id"
-                  placeholder="Search User..."
-                  @select="onUserSelect">
-              </SearchSelect>
+                  placeholder="Add user...">
+              </SearchSelector>
+              <button :disabled="!currentUser" class="btn btn-primary w-100" type="button" @click="add">Add</button>
             </div>
             <div class="col">
               <h2>Info</h2>
@@ -52,15 +54,15 @@
 
 <script>
 import ModalTemplate from "@/shared/components/ModalTemplate";
-import SearchSelect from "@/shared/components/SearchSelect";
 import {ModalService} from "@/shared/services/ModalService";
 import {Selectors} from "@/shared/services/Store";
+import SearchSelector from "@/shared/components/SearchSelector";
 
 export default {
   name: "CheckinModal",
   components: {
     ModalTemplate,
-    SearchSelect,
+    SearchSelector,
   },
   setup() {
     return {
@@ -71,7 +73,7 @@ export default {
   data() {
     return {
       checkedInUserIds: [],
-      userInputFocused: false,
+      currentUser: undefined,
       selectedVenue: undefined,
       arriveDate: undefined,
       leaveDate: undefined,
@@ -86,8 +88,10 @@ export default {
     },
   },
   methods: {
-    onUserSelect(user) {
-      this.checkedInUserIds.push(user.id);
+    add() {
+      if (!this.currentUser) return;
+      this.checkedInUserIds.push(this.currentUser);
+      this.currentUser = undefined;
     },
     removeUser(id) {
       this.checkedInUserIds = this.checkedInUserIds.filter(i => i !== id);

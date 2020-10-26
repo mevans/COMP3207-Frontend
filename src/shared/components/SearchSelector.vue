@@ -85,6 +85,7 @@ export default {
       this.$emit('update:modelValue', id);
     },
     modelValue(n) {
+      if (!n) this.clearSelection();
       const item = this.items.find(i => this.keyFn(i) === n);
       if (item) this.onSelect(item);
     }
