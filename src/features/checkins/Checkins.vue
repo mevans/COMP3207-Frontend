@@ -33,14 +33,14 @@
         </div>
       </div>
     </div>
-    <CheckinsTable :checkins="filteredCheckins"></CheckinsTable>
+    <CheckinsTable :checkins="filteredCheckins" :sort="sort" @col="sortByCol"></CheckinsTable>
   </div>
 </template>
 
 <script>
 import {Selectors} from "@/shared/services/Store";
 import CheckinsTable from "@/features/checkins/component/CheckinsTable";
-import {identity, pickBy} from "lodash";
+import {identity, orderBy, pickBy} from "lodash";
 
 export default {
   name: "Checkins",
@@ -60,6 +60,7 @@ export default {
       filterUser: undefined,
       filterStartDate: undefined,
       filterEndDate: undefined,
+      sort: undefined,
     }
   },
   mounted() {
@@ -67,16 +68,26 @@ export default {
     this.filterUser = this.$route.query['user'];
     this.filterStartDate = this.$route.query['start'];
     this.filterEndDate = this.$route.query['end'];
+    this.sort = this.$route.query['sort'] || '';
   },
   computed: {
     filteredCheckins() {
-      return this.checkins.filter(checkin => {
+      const filteredCheckins = this.checkins.filter(checkin => {
         const venueCorrect = !this.filterVenue || checkin.venue.id === this.filterVenue;
         const userCorrect = !this.filterUser || checkin.user.id === this.filterUser;
         const emptyDates = (!this.filterStartDate || !this.filterEndDate);
         const dateCorrect = emptyDates || (new Date(checkin.arrive) >= new Date(this.filterStartDate) && new Date(checkin.leave) <= new Date(this.filterEndDate));
         return venueCorrect && userCorrect && dateCorrect;
       });
+      const flattenedCheckins = filteredCheckins.map(checkin => ({
+        ...checkin,
+        venue: checkin.venue.name,
+        user: checkin.user.name,
+      }));
+      if (!this.sort) return flattenedCheckins;
+      const order = !this.sort.startsWith('-') ? 'asc' : 'desc';
+      const field = this.sort.replace(/^-/, ''); // Remove first character if its a dash
+      return orderBy(flattenedCheckins, [field], [order]);
     }
   },
   watch: {
@@ -92,6 +103,9 @@ export default {
     filterEndDate() {
       this.updateQueryParams();
     },
+    sort() {
+      this.updateQueryParams();
+    }
   },
   methods: {
     updateQueryParams() {
@@ -101,6 +115,7 @@ export default {
           user: this.filterUser,
           start: this.filterStartDate,
           end: this.filterEndDate,
+          sort: this.sort,
         },
       }, identity);
       this.$router.replace({query});
@@ -110,6 +125,19 @@ export default {
       this.filterUser = undefined;
       this.filterStartDate = undefined;
       this.filterEndDate = undefined;
+    },
+    sortByCol(col) {
+      if (!this.sort.endsWith(col)) {
+        this.sort = col;
+      } else {
+        // Toggle direction
+        const ascending = !this.sort.startsWith('-');
+        if (ascending) {
+          this.sort = `-${col}`;
+        } else {
+          this.sort = '';
+        }
+      }
     }
   }
 }
