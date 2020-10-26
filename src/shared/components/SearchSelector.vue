@@ -78,6 +78,10 @@ export default {
         this.selected = undefined;
       }
     },
+    selected(i) {
+      const id = i ? this.keyFn(i) : undefined;
+      this.$emit('update:modelValue', id);
+    },
     modelValue(n) {
       const item = this.items.find(i => this.keyFn(i) === n);
       if (item) this.onSelect(item);
@@ -97,12 +101,10 @@ export default {
       this.selected = item;
       this.search = this.displayFn(item);
       this.dropdownOpen = false;
-      this.$emit('update:modelValue', this.keyFn(item));
     },
     clearSelection() {
       this.selected = undefined;
       this.search = '';
-      this.$emit('update:modelValue');
     },
     onEnter() {
       if (this.filteredItems.length > 1) return;
