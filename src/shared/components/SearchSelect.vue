@@ -8,6 +8,7 @@
           class="form-control"
           type="text"
           @focusin="dropdownOpen = true"
+          :required="required"
           @keypress.enter.passive="onEnter">
       <div v-if="selected || search" class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" @click="clearSelection">
@@ -53,6 +54,10 @@ export default {
       type: String,
       default: () => '',
     },
+    required: {
+      type: Boolean,
+      default: () => false,
+    }
   },
   data() {
     return {

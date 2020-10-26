@@ -15,16 +15,12 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="form-group">
-            <label for="startDate">Start Date</label>
-            <input id="startDate" v-model="filterStartDate" class="form-control" type="date">
-          </div>
+          <label class="form-label" for="startDate">Start Date</label>
+          <input id="startDate" v-model="filterStartDate" class="form-control" type="date">
         </div>
         <div class="col">
-          <div class="form-group">
-            <label for="endDate">End Date</label>
-            <input id="endDate" v-model="filterEndDate" class="form-control" type="date">
-          </div>
+          <label class="form-label" for="endDate">End Date</label>
+          <input id="endDate" v-model="filterEndDate" class="form-control" type="date">
         </div>
         <div class="col-auto">
           <button class="btn btn-outline-secondary reset-filters" @click="resetFilter">Reset filters</button>

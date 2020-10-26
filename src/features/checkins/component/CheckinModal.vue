@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="submit">
     <ModalTemplate class="modal-lg">
       <template v-slot:title>Check in Group</template>
       <template v-slot:body>
@@ -27,30 +27,31 @@
             <div class="col">
               <h2>Info</h2>
               <div class="form-group">
-                <label for="venueSelect">Venue</label>
+                <label class="form-label" for="venueSelect">Venue</label>
                 <SearchSelect
                     id="venueSelect"
                     v-model="selectedVenue"
                     :display-fn="venue => venue.name"
                     :items="venues"
                     :key-fn="venue => venue.id"
+                    :required="true"
                     placeholder="Search Venues...">
                 </SearchSelect>
               </div>
               <div class="form-group">
-                <label for="startDate">Arrive Date</label>
-                <input id="startDate" v-model="arriveDate" class="form-control" type="date">
+                <label class="form-label" for="startDate">Arrive Date</label>
+                <input id="startDate" v-model="arriveDate" class="form-control" required type="date">
               </div>
               <div class="form-group">
-                <label for="leaveDate">Leave Date</label>
-                <input id="leaveDate" v-model="leaveDate" class="form-control" type="date">
+                <label class="form-label" for="leaveDate">Leave Date</label>
+                <input id="leaveDate" v-model="leaveDate" class="form-control" required type="date">
               </div>
             </div>
           </div>
         </div>
       </template>
       <template v-slot:footer>
-        <button class="btn btn-primary" type="submit" @click.prevent="checkin">Check in</button>
+        <button :disabled="checkedInUserIds.length === 0" class="btn btn-primary" type="submit">Check in</button>
         <button class="btn btn-secondary" type="button" @click="close">Close</button>
       </template>
     </ModalTemplate>
@@ -101,7 +102,7 @@ export default {
     removeUser(id) {
       this.checkedInUserIds = this.checkedInUserIds.filter(i => i !== id);
     },
-    checkin() {
+    submit() {
       const checkin = {
         users: this.checkedInUserIds,
         venue: this.selectedVenue,

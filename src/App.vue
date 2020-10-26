@@ -61,4 +61,8 @@ export default {
 #app-container {
   height: 100%;
 }
+
+.form-group {
+  margin-bottom: 1rem;
+}
 </style>

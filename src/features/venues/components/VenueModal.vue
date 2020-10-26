@@ -1,15 +1,15 @@
 <template>
-  <form>
+  <form @submit.prevent="submit">
     <ModalTemplate>
       <template v-slot:title>{{ titleText }}</template>
       <template v-slot:body>
         <div class="form-group">
-          <label for="nameInput">Name</label>
-          <input id="nameInput" v-model="name" class="form-control">
+          <label class="form-label" for="nameInput">Name</label>
+          <input id="nameInput" v-model="name" class="form-control" required>
         </div>
       </template>
       <template v-slot:footer>
-        <button class="btn btn-primary" type="submit" @click.prevent="action">{{ buttonText }}</button>
+        <button class="btn btn-primary" type="submit">{{ buttonText }}</button>
         <button class="btn btn-secondary" type="button" @click="close">Close</button>
       </template>
     </ModalTemplate>
@@ -47,7 +47,7 @@ export default {
     }
   },
   methods: {
-    action() {
+    submit() {
       const venue = {name: this.name};
       ModalService.dismiss(venue);
     },

@@ -1,17 +1,19 @@
 <template>
-  <ModalTemplate>
-    <template v-slot:title>Report Positive Test</template>
-    <template v-slot:body>
-      <div class="form-group">
-        <SearchSelect id="userSelect" v-model="selectedUser" :display-fn="user => user.name" :items="users"
-                      :key-fn="user => user.id" placeholder="Search User..."></SearchSelect>
-      </div>
-    </template>
-    <template v-slot:footer>
-      <button class="btn btn-danger" type="button" @click="report">Report</button>
-      <button class="btn btn-secondary" type="button" @click="close">Close</button>
-    </template>
-  </ModalTemplate>
+  <form @submit.prevent="report">
+    <ModalTemplate>
+      <template v-slot:title>Report Positive Test</template>
+      <template v-slot:body>
+        <div class="form-group">
+          <SearchSelect id="userSelect" v-model="selectedUser" :display-fn="user => user.name" :items="users"
+                        :key-fn="user => user.id" placeholder="Search User..."></SearchSelect>
+        </div>
+      </template>
+      <template v-slot:footer>
+        <button :disabled="!selectedUser" class="btn btn-danger" type="submit">Report</button>
+        <button class="btn btn-secondary" type="button" @click="close">Close</button>
+      </template>
+    </ModalTemplate>
+  </form>
 </template>
 
 <script>
