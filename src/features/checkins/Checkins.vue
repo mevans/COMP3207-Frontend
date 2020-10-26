@@ -3,10 +3,8 @@
     <div class="filter border border-bottom-0">
       <div class="row">
         <div class="col">
-          <label for="venueSelect">Venue</label>
-          <select id="venueSelect" v-model="filterVenue" class="form-select">
-            <option v-for="venue in venues" v-bind:key="venue.id" :value="venue.id">{{ venue.name }}</option>
-          </select>
+          <SearchSelector :display-fn="venue => venue.name" :items="venues"
+                          :key-fn="venue => venue.id"></SearchSelector>
         </div>
         <div class="col">
           <label for="userSelect">User</label>
@@ -41,11 +39,13 @@
 import {Selectors} from "@/shared/services/Store";
 import CheckinsTable from "@/features/checkins/component/CheckinsTable";
 import {identity, orderBy, pickBy} from "lodash";
+import SearchSelector from "@/shared/components/SearchSelector";
 
 export default {
   name: "Checkins",
   components: {
     CheckinsTable,
+    SearchSelector,
   },
   setup() {
     return {
