@@ -14,14 +14,14 @@
                   <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
                 </li>
               </ul>
-              <SearchSelector
+              <SearchSelect
                   v-model="currentUser"
                   class="mb-3"
                   :display-fn="user => user.name"
                   :items="filteredUsers"
                   :key-fn="user => user.id"
                   placeholder="Add user...">
-              </SearchSelector>
+              </SearchSelect>
               <button :disabled="!currentUser" class="btn btn-primary w-100" type="button" @click="add">Add</button>
             </div>
             <div class="col">
@@ -56,13 +56,13 @@
 import ModalTemplate from "@/shared/components/ModalTemplate";
 import {ModalService} from "@/shared/services/ModalService";
 import {Selectors} from "@/shared/services/Store";
-import SearchSelector from "@/shared/components/SearchSelector";
+import SearchSelect from "@/shared/components/SearchSelect";
 
 export default {
   name: "CheckinModal",
   components: {
     ModalTemplate,
-    SearchSelector,
+    SearchSelect,
   },
   setup() {
     return {

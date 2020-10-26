@@ -4,13 +4,13 @@
       <div class="row">
         <div class="col">
           <label class="form-label" for="venueSelect">Venue</label>
-          <SearchSelector id="venueSelect" v-model="filterVenue" :display-fn="venue => venue.name" :items="venues"
-                          :key-fn="venue => venue.id"></SearchSelector>
+          <SearchSelect id="venueSelect" v-model="filterVenue" :display-fn="venue => venue.name" :items="venues"
+                        :key-fn="venue => venue.id"></SearchSelect>
         </div>
         <div class="col">
           <label class="form-label" for="userSelect">User</label>
-          <SearchSelector id="userSelect" v-model="filterUser" :display-fn="user => user.name" :items="users"
-                          :key-fn="user => user.id"></SearchSelector>
+          <SearchSelect id="userSelect" v-model="filterUser" :display-fn="user => user.name" :items="users"
+                        :key-fn="user => user.id"></SearchSelect>
         </div>
       </div>
       <div class="row">
@@ -39,13 +39,13 @@
 import {Selectors} from "@/shared/services/Store";
 import CheckinsTable from "@/features/checkins/component/CheckinsTable";
 import {identity, orderBy, pickBy} from "lodash";
-import SearchSelector from "@/shared/components/SearchSelector";
+import SearchSelect from "@/shared/components/SearchSelect";
 
 export default {
   name: "Checkins",
   components: {
     CheckinsTable,
-    SearchSelector,
+    SearchSelect,
   },
   setup() {
     return {
