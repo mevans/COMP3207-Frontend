@@ -3,10 +3,8 @@
     <template v-slot:title>Report Positive Test</template>
     <template v-slot:body>
       <div class="form-group">
-        <label class="form-label" for="userSelect">User</label>
-        <select id="userSelect" v-model="selectedUser" class="form-select">
-          <option v-for="user in users" v-bind:key="user.id" :value="user.id">{{ user.name }}</option>
-        </select>
+        <SearchSelect id="userSelect" v-model="selectedUser" :display-fn="user => user.name" :items="users"
+                      :key-fn="user => user.id" placeholder="Search User..."></SearchSelect>
       </div>
     </template>
     <template v-slot:footer>
@@ -20,11 +18,13 @@
 import ModalTemplate from "@/shared/components/ModalTemplate";
 import {ModalService} from "@/shared/services/ModalService";
 import {Selectors} from "@/shared/services/Store";
+import SearchSelect from "@/shared/components/SearchSelect";
 
 export default {
   name: "ReportModal",
   components: {
     ModalTemplate,
+    SearchSelect,
   },
   setup() {
     return {
