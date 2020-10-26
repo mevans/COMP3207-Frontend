@@ -28,9 +28,14 @@
               <h2>Info</h2>
               <div class="form-group">
                 <label for="venueSelect">Venue</label>
-                <select id="venueSelect" v-model="selectedVenue" class="form-select">
-                  <option v-for="venue in venues" v-bind:key="venue.id" :value="venue.id">{{ venue.name }}</option>
-                </select>
+                <SearchSelect
+                    id="venueSelect"
+                    v-model="selectedVenue"
+                    :display-fn="venue => venue.name"
+                    :items="venues"
+                    :key-fn="venue => venue.id"
+                    placeholder="Search Venues...">
+                </SearchSelect>
               </div>
               <div class="form-group">
                 <label for="startDate">Arrive Date</label>
@@ -119,5 +124,9 @@ export default {
 
 .selected-users-list .list-group-item {
   align-items: baseline;
+}
+
+.form-group {
+  margin-bottom: 1rem;
 }
 </style>
