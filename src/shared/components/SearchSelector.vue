@@ -1,19 +1,21 @@
 <template>
   <div class="input-group">
     <input
+        @keypress.enter.passive="onEnter"
+        ref="search"
         v-model="search"
         :placeholder="placeholder"
         class="form-control"
         type="text"
-        @focusin="hasFocus = true"
-        @focusout="hasFocus = false">
+        @focusin="dropdownOpen = true">
     <div v-if="selected" class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" @click="clearSelection">
         &times;
       </button>
     </div>
   </div>
-  <div :style="dropdownStyle" aria-labelledby="dropdownMenuButton" class="dropdown-menu">
+  <div ref="dropdown" :style="{ 'display': dropdownOpen ? 'block' : 'none' }" aria-labelledby="dropdownMenuButton"
+       class="dropdown-menu">
     <a v-for="item in filteredItems"
        v-bind:key="keyFn(item)"
        class="dropdown-item"
@@ -50,33 +52,52 @@ export default {
     return {
       selected: undefined,
       search: '',
-      hasFocus: false,
+      dropdownOpen: false,
     };
   },
   computed: {
     filteredItems() {
       return this.items.filter(item => Object.values(item).toString().toLowerCase().includes(this.search.toLowerCase()));
     },
-    dropdownStyle() {
-      const show = (this.hasFocus) || (!this.hasFocus && this.search) || this.dropdownStyle.display === 'block';
-      return {display: show ? 'block' : 'none'};
-    }
   },
   watch: {
     search() {
+      // If something is selected, and they don't search for the selected item, then deselect
       if (this.selected && this.displayFn(this.selected) !== this.search) {
         this.selected = undefined;
       }
+    },
+    dropdownOpen() {
+      // If they close the dropdown without selecting, then clear
+      if (!this.dropdownOpen && !this.selected) {
+        this.search = '';
+        this.selected = undefined;
+      }
     }
+  },
+  mounted() {
+    document.addEventListener('click', e => {
+      // If the click is not on the input or the dropdown, then close the dropdown
+      const clickedOn = e.target === this.$refs.search || e.target === this.$refs.dropdown;
+      if (!clickedOn) {
+        this.dropdownOpen = false;
+      }
+    });
   },
   methods: {
     onSelect(item) {
       this.selected = item;
       this.search = this.displayFn(item);
+      this.dropdownOpen = false;
     },
     clearSelection() {
       this.selected = undefined;
       this.search = '';
+    },
+    onEnter() {
+      if (this.filteredItems.length > 1) return;
+      // Select the only item in the list
+      this.onSelect(this.filteredItems[0]);
     }
   }
 }
