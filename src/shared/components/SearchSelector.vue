@@ -1,29 +1,31 @@
 <template>
-  <div class="input-group">
-    <input
-        @keypress.enter.passive="onEnter"
-        ref="search"
-        v-model="search"
-        :placeholder="placeholder"
-        class="form-control"
-        type="text"
-        @focusin="dropdownOpen = true">
-    <div v-if="selected || search" class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" @click="clearSelection">
-        &times;
-      </button>
+  <div>
+    <div class="input-group">
+      <input
+          ref="search"
+          v-model="search"
+          :placeholder="placeholder"
+          class="form-control"
+          type="text"
+          @focusin="dropdownOpen = true"
+          @keypress.enter.passive="onEnter">
+      <div v-if="selected || search" class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" @click="clearSelection">
+          &times;
+        </button>
+      </div>
     </div>
-  </div>
-  <div ref="dropdown" :style="{ 'display': dropdownOpen ? 'block' : 'none' }" aria-labelledby="dropdownMenuButton"
-       class="dropdown-menu">
-    <a v-for="item in filteredItems"
-       v-bind:key="keyFn(item)"
-       class="dropdown-item"
-       href="#"
-       @click="onSelect(item)">
-      {{ displayFn(item) }}
-    </a>
-    <a v-if="filteredItems.length === 0" class="dropdown-item disabled">No results</a>
+    <div ref="dropdown" :style="{ 'display': dropdownOpen ? 'block' : 'none' }" aria-labelledby="dropdownMenuButton"
+         class="dropdown-menu">
+      <a v-for="item in filteredItems"
+         v-bind:key="keyFn(item)"
+         class="dropdown-item"
+         href="#"
+         @click="onSelect(item)">
+        {{ displayFn(item) }}
+      </a>
+      <a v-if="filteredItems.length === 0" class="dropdown-item disabled">No results</a>
+    </div>
   </div>
 </template>
 

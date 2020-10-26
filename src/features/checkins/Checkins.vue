@@ -3,14 +3,14 @@
     <div class="filter border border-bottom-0">
       <div class="row">
         <div class="col">
-          <SearchSelector v-model="filterVenue" :display-fn="venue => venue.name" :items="venues"
-                          :key-fn="venue => venue.id" placeholder="Search Venues..."></SearchSelector>
+          <label class="form-label" for="venueSelect">Venue</label>
+          <SearchSelector id="venueSelect" v-model="filterVenue" :display-fn="venue => venue.name" :items="venues"
+                          :key-fn="venue => venue.id"></SearchSelector>
         </div>
         <div class="col">
-          <label for="userSelect">User</label>
-          <select id="userSelect" v-model="filterUser" class="form-select">
-            <option v-for="user in users" v-bind:key="user.id" :value="user.id">{{ user.name }}</option>
-          </select>
+          <label class="form-label" for="userSelect">User</label>
+          <SearchSelector id="userSelect" v-model="filterUser" :display-fn="user => user.name" :items="users"
+                          :key-fn="user => user.id"></SearchSelector>
         </div>
       </div>
       <div class="row">
