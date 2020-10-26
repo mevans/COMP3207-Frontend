@@ -3,7 +3,7 @@
     <div class="filter border border-bottom-0">
       <div class="row">
         <div class="col">
-          <SearchSelector :display-fn="venue => venue.name" :items="venues"
+          <SearchSelector v-model="filterVenue" :display-fn="venue => venue.name" :items="venues"
                           :key-fn="venue => venue.id" placeholder="Search Venues..."></SearchSelector>
         </div>
         <div class="col">

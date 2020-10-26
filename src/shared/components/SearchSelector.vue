@@ -8,7 +8,7 @@
         class="form-control"
         type="text"
         @focusin="dropdownOpen = true">
-    <div v-if="selected" class="input-group-append">
+    <div v-if="selected || search" class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" @click="clearSelection">
         &times;
       </button>
@@ -46,7 +46,11 @@ export default {
     displayFn: {
       type: Function,
       default: () => i => i.toString(),
-    }
+    },
+    modelValue: {
+      type: String,
+      default: () => '',
+    },
   },
   data() {
     return {
@@ -73,6 +77,10 @@ export default {
         this.search = '';
         this.selected = undefined;
       }
+    },
+    modelValue(n) {
+      const item = this.items.find(i => this.keyFn(i) === n);
+      if (item) this.onSelect(item);
     }
   },
   mounted() {
@@ -89,10 +97,12 @@ export default {
       this.selected = item;
       this.search = this.displayFn(item);
       this.dropdownOpen = false;
+      this.$emit('update:modelValue', this.keyFn(item));
     },
     clearSelection() {
       this.selected = undefined;
       this.search = '';
+      this.$emit('update:modelValue');
     },
     onEnter() {
       if (this.filteredItems.length > 1) return;
