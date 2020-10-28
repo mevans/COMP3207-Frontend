@@ -5,7 +5,9 @@
     </template>
     <template v-else>
       <Sidebar @checkin="checkin" @report="report"></Sidebar>
-      <router-view/>
+      <main>
+        <router-view/>
+      </main>
       <Toasts></Toasts>
       <Modals></Modals>
     </template>
@@ -64,5 +66,10 @@ export default {
 
 .form-group {
   margin-bottom: 1rem;
+}
+
+main {
+  width: 100%;
+  overflow-y: auto;
 }
 </style>

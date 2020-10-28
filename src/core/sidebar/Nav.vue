@@ -14,7 +14,7 @@ export default {
     return h('div',
         navItems.map(({path, title}) => {
           return h(RouterLink, {
-            'class': 'list-group-item list-group-item-action',
+            'class': 'list-group-item list-group-item-action border-right-0',
             'exact-active-class': 'active',
             'to': path,
           }, title);
