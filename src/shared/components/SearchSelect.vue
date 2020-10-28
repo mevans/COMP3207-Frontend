@@ -21,6 +21,7 @@
       <a v-for="item in filteredItems"
          v-bind:key="keyFn(item)"
          class="dropdown-item"
+         :class="{'active': selected === item}"
          href="#"
          @click="onSelect(item)">
         {{ displayFn(item) }}
