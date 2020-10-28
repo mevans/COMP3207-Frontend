@@ -9,7 +9,7 @@
       <h1 class="mb-5">Users to self isolate
         <button class="btn btn-primary ml-3" @click="fetchReports">Refresh</button>
       </h1>
-      <UsersTable :users="usersToIsolate"></UsersTable>
+      <Table :columns="tableColumns" :items="usersToIsolate" :key-fn="i => i.id"></Table>
     </template>
   </div>
 </template>
@@ -17,12 +17,12 @@
 <script>
 import {ApiService} from "@/shared/services/ApiService";
 import {Selectors} from "@/shared/services/Store";
-import UsersTable from "@/features/users/components/UsersTable";
+import Table from "@/shared/components/Table";
 
 export default {
   name: "Reports",
   components: {
-    UsersTable,
+    Table,
   },
   setup() {
     return {
@@ -33,6 +33,10 @@ export default {
     return {
       initialising: true,
       userIds: [],
+      tableColumns: [
+        {id: 'id', header: 'Id', fn: i => i.id},
+        {id: 'name', header: 'Name', fn: i => i.name},
+      ]
     }
   },
   mounted() {

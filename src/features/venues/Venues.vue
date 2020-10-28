@@ -7,24 +7,28 @@
         <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
       </div>
     </div>
-    <VenuesTable :deletes-in-progress="deletesInProgress" :venues="filteredVenues" @delete="deleteVenue"></VenuesTable>
+    <Table :columns="tableColumns" :items="filteredVenues" :key-fn="venue => venue.id">
+      <template v-slot:actions="{item: venue}">
+        <button class="btn btn-outline-danger" @click="deleteVenue(venue.id)">Delete</button>
+      </template>
+    </Table>
     <button class="btn btn-primary" @click="createNew">Create New</button>
   </div>
 </template>
 
 <script>
-import VenuesTable from "@/features/venues/components/VenuesTable";
 import {ToastService} from "@/shared/services/ToastService";
 import {ModalService} from "@/shared/services/ModalService";
 import VenueModal from "@/features/venues/components/VenueModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
 import {identity, pickBy} from "lodash";
+import Table from "@/shared/components/Table";
 
 export default {
   name: "Venues",
   components: {
-    VenuesTable,
+    Table,
   },
   setup() {
     return {
@@ -33,8 +37,11 @@ export default {
   },
   data() {
     return {
-      deletesInProgress: [],
       search: '',
+      tableColumns: [
+        {id: 'id', header: 'Id', fn: i => i.id},
+        {id: 'name', header: 'Name', fn: i => i.name},
+      ],
     };
   },
   computed: {
@@ -48,13 +55,10 @@ export default {
   methods: {
     // Show a confirmation and then delete if ok
     async deleteVenue(id) {
-      this.deletesInProgress.push(id);
       const confirm = await ModalService.showConfirmationModal({message: 'Are you sure you want to delete this venue?'});
-      if (confirm) {
-        await ApiService.deleteVenue(id);
-        ToastService.createToast({text: 'Venue successfully deleted', title: 'Venues'});
-      }
-      this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
+      if (!confirm) return;
+      await ApiService.deleteVenue(id);
+      ToastService.createToast({text: 'Venue successfully deleted', title: 'Venues'});
     },
     // Show modal and create
     async createNew() {

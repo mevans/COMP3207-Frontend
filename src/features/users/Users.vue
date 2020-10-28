@@ -7,28 +7,34 @@
         <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
       </div>
     </div>
-    <UsersTable
-        :deletes-in-progress="deletesInProgress"
-        :users="filteredUsers"
-        @delete="deleteUser"
-        @edit="edit">
-    </UsersTable>
+    <Table :columns="tableColumns" :items="filteredUsers" :key-fn="user => user.id">
+      <template v-slot:actions="{item: user}">
+        <router-link
+            :to="{name: 'Checkins', query: {user: user.id}}"
+            class="btn btn-outline-primary"
+            tag="button">
+          Checkins
+        </router-link>
+        <button class="btn btn-outline-dark" @click="edit(user)">Edit</button>
+        <button class="btn btn-outline-danger" @click="deleteUser(user.id)">Delete</button>
+      </template>
+    </Table>
     <button class="btn btn-primary" @click="createNew()">Create New</button>
   </div>
 </template>
 <script>
-import UsersTable from "@/features/users/components/UsersTable";
 import {ToastService} from "@/shared/services/ToastService";
 import {identity, pickBy} from 'lodash';
 import {ModalService} from "@/shared/services/ModalService";
 import UserModal from "@/features/users/components/UserModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
+import Table from "@/shared/components/Table";
 
 export default {
   name: "Users",
   components: {
-    UsersTable,
+    Table,
   },
   setup() {
     return {
@@ -37,8 +43,11 @@ export default {
   },
   data() {
     return {
-      deletesInProgress: [],
       search: '',
+      tableColumns: [
+        {id: 'id', header: 'Id', fn: i => i.id},
+        {id: 'name', header: 'Name', fn: i => i.name},
+      ],
     }
   },
   computed: {
@@ -52,13 +61,10 @@ export default {
   methods: {
     // Show a confirmation and then delete if they ok it
     async deleteUser(id) {
-      this.deletesInProgress.push(id);
       const confirm = await ModalService.showConfirmationModal({message: 'Are you sure you want to delete this user?'});
-      if (confirm) {
-        await ApiService.deleteUser(id);
-        ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
-      }
-      this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
+      if (!confirm) return;
+      await ApiService.deleteUser(id);
+      ToastService.createToast({text: 'User successfully deleted', title: 'Users'});
     },
     // Show modal and update
     async edit(user) {
