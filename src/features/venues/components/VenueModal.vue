@@ -27,9 +27,13 @@
 
 <script>
 import {ModalService} from "@/shared/services/ModalService";
+import ModalTemplate from "@/shared/components/ModalTemplate";
 
 export default {
   name: "VenueModal",
+  components: {
+    ModalTemplate,
+  },
   props: ['venue'],
   data() {
     return {
