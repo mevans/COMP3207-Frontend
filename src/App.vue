@@ -26,7 +26,7 @@ import {Selectors, Store} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
 import {ModalService} from "@/shared/services/ModalService";
 import CheckinModal from "@/features/checkins/component/CheckinModal";
-import ReportModal from "@/features/report/components/ReportModal";
+import ReportModal from "@/features/reports/components/ReportModal";
 import {ToastService} from "@/shared/services/ToastService";
 
 export default {
@@ -95,5 +95,9 @@ main {
   color: var(--bs-primary);
   width: 50px;
   height: 50px;
+}
+
+.container {
+  padding: 2rem;
 }
 </style>

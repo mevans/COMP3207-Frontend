@@ -1,12 +1,7 @@
 <!-- Page to display list of venues -->
 <template>
-  <div class="container venues-container">
-    <div class="input-group mb-3">
-      <input id="venueSearch" v-model="search" class="form-control" placeholder="Search...">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
-      </div>
-    </div>
+  <div class="container">
+    <SearchBar v-model="search" class="mb-3"></SearchBar>
     <Table :columns="tableColumns" :items="filteredVenues" :key-fn="venue => venue.id">
       <template v-slot:actions="{item: venue}">
         <router-link
@@ -29,14 +24,13 @@ import {ModalService} from "@/shared/services/ModalService";
 import VenueModal from "@/features/venues/components/VenueModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
-import {identity, pickBy} from "lodash";
-import Table from "@/shared/components/Table";
+import {basicSearchQueryMixin} from "@/shared/mixins/BasicSearchQuery";
 
 export default {
   name: "Venues",
-  components: {
-    Table,
-  },
+  mixins: [
+    basicSearchQueryMixin,
+  ],
   setup() {
     return {
       venues: Selectors.venues,
@@ -44,7 +38,6 @@ export default {
   },
   data() {
     return {
-      search: '',
       tableColumns: [
         {id: 'name', header: 'Name', fn: i => i.name},
         {id: 'address', header: 'Address', fn: i => i.address},
@@ -56,9 +49,6 @@ export default {
     filteredVenues() {
       return this.venues.filter(venue => venue.name.toLowerCase().includes(this.search.toLowerCase()));
     }
-  },
-  mounted() {
-    this.search = this.$route.query['search'] || '';
   },
   methods: {
     // Show a confirmation and then delete if ok
@@ -82,23 +72,9 @@ export default {
       await ApiService.createVenue(venueCreate);
       ToastService.createToast({title: 'Venues', text: 'Venue successfully created'});
     },
-    clearSearch() {
-      this.search = '';
-    },
   },
-  watch: {
-    // When the search value changes, add it to the query params
-    search(v) {
-      const query = pickBy({...this.$route.query, search: v}, identity);
-      this.$router.replace({query});
-    },
-  }
 }
 </script>
 
 <style scoped>
-.venues-container {
-  padding: 2rem;
-  width: 100%;
-}
 </style>

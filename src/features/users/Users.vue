@@ -1,12 +1,7 @@
 <!-- Page to display list of users -->
 <template>
-  <div class="container users-container">
-    <div class="input-group mb-3">
-      <input id="userSearch" v-model="search" class="form-control" placeholder="Search...">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Clear</button>
-      </div>
-    </div>
+  <div class="container">
+    <SearchBar v-model="search" class="mb-3"></SearchBar>
     <Table :columns="tableColumns" :items="filteredUsers" :key-fn="user => user.id">
       <template v-slot:actions="{item: user}">
         <router-link
@@ -22,20 +17,20 @@
     <button class="btn btn-primary" @click="createNew()">Create New</button>
   </div>
 </template>
+
 <script>
 import {ToastService} from "@/shared/services/ToastService";
-import {identity, pickBy} from 'lodash';
 import {ModalService} from "@/shared/services/ModalService";
 import UserModal from "@/features/users/components/UserModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
-import Table from "@/shared/components/Table";
+import {basicSearchQueryMixin} from "@/shared/mixins/BasicSearchQuery";
 
 export default {
   name: "Users",
-  components: {
-    Table,
-  },
+  mixins: [
+    basicSearchQueryMixin,
+  ],
   setup() {
     return {
       users: Selectors.users,
@@ -43,7 +38,6 @@ export default {
   },
   data() {
     return {
-      search: '',
       tableColumns: [
         {id: 'name', header: 'Name', fn: i => i.name},
         {id: 'email', header: 'Email', fn: i => i.email},
@@ -56,9 +50,6 @@ export default {
     filteredUsers() {
       return this.users.filter(user => user.name.toLowerCase().includes(this.search.toLowerCase()));
     }
-  },
-  mounted() {
-    this.search = this.$route.query['search'] || '';
   },
   methods: {
     // Show a confirmation and then delete if they ok it
@@ -82,23 +73,9 @@ export default {
       await ApiService.createUser(userCreate);
       ToastService.createToast({title: 'Users', text: 'User successfully created'});
     },
-    clearSearch() {
-      this.search = '';
-    },
   },
-  watch: {
-    // When the search value changes, add it to the query params
-    search(v) {
-      const query = pickBy({...this.$route.query, search: v}, identity);
-      this.$router.replace({query});
-    },
-  }
 }
 </script>
 
 <style scoped>
-.users-container {
-  padding: 2rem;
-  width: 100%;
-}
 </style>

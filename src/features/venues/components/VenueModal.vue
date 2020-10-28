@@ -26,14 +26,10 @@
 </template>
 
 <script>
-import ModalTemplate from "@/shared/components/ModalTemplate";
 import {ModalService} from "@/shared/services/ModalService";
 
 export default {
   name: "VenueModal",
-  components: {
-    ModalTemplate,
-  },
   props: ['venue'],
   data() {
     return {

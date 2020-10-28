@@ -9,6 +9,7 @@
       <h1 class="mb-5">Users to self isolate
         <button class="btn btn-primary ml-3" @click="fetchReports">Refresh</button>
       </h1>
+      <SearchBar v-model="search" class="mb-3"></SearchBar>
       <Table :columns="tableColumns" :items="usersToIsolate" :key-fn="i => i.id"></Table>
     </template>
   </div>
@@ -17,13 +18,13 @@
 <script>
 import {ApiService} from "@/shared/services/ApiService";
 import {Selectors} from "@/shared/services/Store";
-import Table from "@/shared/components/Table";
+import {basicSearchQueryMixin} from "@/shared/mixins/BasicSearchQuery";
 
 export default {
   name: "Reports",
-  components: {
-    Table,
-  },
+  mixins: [
+    basicSearchQueryMixin,
+  ],
   setup() {
     return {
       users: Selectors.users,
@@ -34,8 +35,10 @@ export default {
       initialising: true,
       userIds: [],
       tableColumns: [
-        {id: 'id', header: 'Id', fn: i => i.id},
         {id: 'name', header: 'Name', fn: i => i.name},
+        {id: 'email', header: 'Email', fn: i => i.email},
+        {id: 'phone', header: 'Phone', fn: i => i.phone},
+        {id: 'address', header: 'Address', fn: i => i.address},
       ]
     }
   },

@@ -36,13 +36,11 @@
 import {Selectors} from "@/shared/services/Store";
 import CheckinsTable from "@/features/checkins/component/CheckinsTable";
 import {identity, orderBy, pickBy} from "lodash";
-import SearchSelect from "@/shared/components/SearchSelect";
 
 export default {
   name: "Checkins",
   components: {
     CheckinsTable,
-    SearchSelect,
   },
   setup() {
     return {
