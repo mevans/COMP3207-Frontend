@@ -9,6 +9,12 @@
     </div>
     <Table :columns="tableColumns" :items="filteredVenues" :key-fn="venue => venue.id">
       <template v-slot:actions="{item: venue}">
+        <router-link
+            :to="{name: 'Checkins', query: {venue: venue.id}}"
+            class="btn btn-outline-primary"
+            tag="button">
+          Visitors
+        </router-link>
         <button class="btn btn-outline-danger" @click="deleteVenue(venue.id)">Delete</button>
       </template>
     </Table>
