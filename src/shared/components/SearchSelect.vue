@@ -1,3 +1,4 @@
+<!-- Custom component which combines a search box & a dropdown, so large lists of items can be searched and selected -->
 <template>
   <div>
     <div class="input-group">
@@ -9,7 +10,7 @@
           type="text"
           @focusin="dropdownOpen = true"
           :required="required"
-          @keypress.enter.passive="onEnter">
+          @keypress.enter.passive="onEnterKey">
       <div v-if="selected || search" class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" @click="clearSelection">
           &times;
@@ -51,6 +52,7 @@ export default {
       type: Function,
       default: () => i => i.toString(),
     },
+    // modelValue is a reserved name by the framework so this component can be used like a normal form element
     modelValue: {
       type: String,
       default: () => '',
@@ -88,6 +90,7 @@ export default {
     },
     selected(i) {
       const id = i ? this.keyFn(i) : undefined;
+      // Reserved name to tell the parent component that this form element has a new value
       this.$emit('update:modelValue', id);
     },
     modelValue(n) {
@@ -106,16 +109,18 @@ export default {
     });
   },
   methods: {
+    // Select an item
     onSelect(item) {
       this.selected = item;
       this.search = this.displayFn(item);
       this.dropdownOpen = false;
     },
+    // Clear the selection
     clearSelection() {
       this.selected = undefined;
       this.search = '';
     },
-    onEnter() {
+    onEnterKey() {
       if (this.filteredItems.length > 1) return;
       // Select the only item in the list
       this.onSelect(this.filteredItems[0]);

@@ -1,3 +1,4 @@
+<!-- Standardised Confirmation Modal eg. are you sure you want to...? yes / no -->
 <template>
   <ModalTemplate>
     <template v-slot:title>{{ title }}</template>

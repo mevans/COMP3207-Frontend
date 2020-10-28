@@ -1,3 +1,4 @@
+<!-- Table to display list of venues -->
 <template>
   <table class="table table-striped table-bordered table-hover">
     <thead>

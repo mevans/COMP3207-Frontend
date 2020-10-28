@@ -1,3 +1,4 @@
+<!-- Page to display list of checkins, and allow them to be filtered-->
 <template>
   <div class="container checkins-container">
     <div class="filter border border-bottom-0">
@@ -60,6 +61,7 @@ export default {
     }
   },
   mounted() {
+    // Initialise variables with data from query params
     this.filterVenue = this.$route.query['venue'];
     this.filterUser = this.$route.query['user'];
     this.filterStartDate = this.$route.query['start'];
@@ -67,6 +69,7 @@ export default {
     this.sort = this.$route.query['sort'] || '';
   },
   computed: {
+    // Filter checkins by filter data
     filteredCheckins() {
       const filteredCheckins = this.checkins.filter(checkin => {
         const venueCorrect = !this.filterVenue || checkin.venue.id === this.filterVenue;
@@ -87,6 +90,7 @@ export default {
     }
   },
   watch: {
+    // If any of these variables change, update the query params
     filterVenue() {
       this.updateQueryParams();
     },
@@ -104,6 +108,7 @@ export default {
     }
   },
   methods: {
+    // Put the variables into the query params
     updateQueryParams() {
       const query = pickBy({
         ...this.$route.query, ...{
@@ -116,12 +121,14 @@ export default {
       }, identity);
       this.$router.replace({query});
     },
+    // Clear the filter
     resetFilter() {
       this.filterVenue = undefined;
       this.filterUser = undefined;
       this.filterStartDate = undefined;
       this.filterEndDate = undefined;
     },
+    // Called when a column is clicked, handles transformation of asc -> desc -> no sorting
     sortByCol(col) {
       if (!this.sort.endsWith(col)) {
         this.sort = col;

@@ -43,12 +43,14 @@ export default {
   },
   mounted() {
     Store.initialise();
+    // When an api call finishes with this topic, do this with the store..
     ApiService.addListener('users', Store.refreshUsers);
     ApiService.addListener('venues', Store.refreshVenues);
     ApiService.addListener('checkins', Store.refreshCheckins);
   },
   methods: {
     async checkin() {
+      // Show the checkin modal, create if modal not dismissed and show toast
       const checkin = await ModalService.showModal(CheckinModal);
       if (!checkin) return;
       await ApiService.createCheckin(checkin);
@@ -58,6 +60,7 @@ export default {
       })
     },
     async report() {
+      // Show the report modal, create if modal not dismissed and show toast
       const user = await ModalService.showModal(ReportModal);
       if (!user) return;
       await ApiService.reportUser(user);

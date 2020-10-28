@@ -1,3 +1,4 @@
+<!-- Modal to report a positive test of COVID -->
 <template>
   <form @submit.prevent="report">
     <ModalTemplate>
@@ -40,6 +41,7 @@ export default {
   },
   methods: {
     report() {
+      // Dismiss with the selected user, if no user is selected this is the same as cancelling
       ModalService.dismiss(this.selectedUser);
     },
     close() {

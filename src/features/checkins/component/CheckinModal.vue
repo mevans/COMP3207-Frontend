@@ -1,3 +1,4 @@
+<!-- Modal for checking in multiple users into a venue with a arrive/leave date -->
 <template>
   <form @submit.prevent="submit">
     <ModalTemplate class="modal-lg">
@@ -87,21 +88,26 @@ export default {
   },
   computed: {
     filteredUsers() {
+      // Dont show the already added users in the dropdown
       return this.users.filter(user => !this.checkedInUserIds.includes(user.id));
     },
     checkedInUsers() {
+      // Transform user ids to user objects
       return this.checkedInUserIds.map(id => this.users.find(u => u.id === id)).filter(v => !!v);
     },
   },
   methods: {
+    // Add the user in the dropdown to the list of added users
     add() {
       if (!this.currentUser) return;
       this.checkedInUserIds.push(this.currentUser);
       this.currentUser = undefined;
     },
+    // Remove them
     removeUser(id) {
       this.checkedInUserIds = this.checkedInUserIds.filter(i => i !== id);
     },
+    // Construct the checkin object and dismiss
     submit() {
       const checkin = {
         users: this.checkedInUserIds,

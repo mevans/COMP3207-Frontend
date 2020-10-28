@@ -1,5 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from "../features/home/Home";
+import Users from "@/features/users/Users";
+import Venues from "@/features/venues/Venues";
+import Checkins from "@/features/checkins/Checkins";
 
 const routes = [
     {
@@ -12,16 +15,16 @@ const routes = [
     },
     {
         path: '/users',
-        component: () => import('../features/users/Users'),
+        component: Users,
     },
     {
         path: '/venues',
-        component: () => import('../features/venues/Venues'),
+        component: Venues,
     },
     {
         path: '/checkins',
-        component: () => import('../features/checkins/Checkins'),
-        name: 'Checkins',
+        component: Checkins,
+        name: 'Checkins', // This route is named so it can be navigated to with query params
     },
 ]
 

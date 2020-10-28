@@ -1,3 +1,4 @@
+<!-- Modal to create a venue -->
 <template>
   <form @submit.prevent="submit">
     <ModalTemplate>
@@ -48,6 +49,7 @@ export default {
   },
   methods: {
     submit() {
+      // Construct venue object and dismiss
       const venue = {name: this.name};
       ModalService.dismiss(venue);
     },

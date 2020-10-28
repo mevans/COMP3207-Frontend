@@ -1,3 +1,4 @@
+<!-- Modal to create/edit a user -->
 <template>
   <form @submit.prevent="submit">
     <ModalTemplate>
@@ -39,6 +40,7 @@ export default {
   },
   mounted() {
     this.create = !this.user;
+    // If a user is being edited, initialise the fields with the user data
     if (!this.create) {
       this.id = this.user.id;
       this.name = this.user.name;
@@ -53,6 +55,7 @@ export default {
     }
   },
   methods: {
+    // Construct user object and dismiss
     submit() {
       const user = {id: this.id, name: this.name};
       ModalService.dismiss(user);

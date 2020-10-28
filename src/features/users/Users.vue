@@ -1,3 +1,4 @@
+<!-- Page to display list of users -->
 <template>
   <div class="container users-container">
     <div class="input-group mb-3">
@@ -49,6 +50,7 @@ export default {
     this.search = this.$route.query['search'] || '';
   },
   methods: {
+    // Show a confirmation and then delete if they ok it
     async deleteUser(id) {
       this.deletesInProgress.push(id);
       const confirm = await ModalService.showConfirmationModal({message: 'Are you sure you want to delete this user?'});
@@ -58,12 +60,14 @@ export default {
       }
       this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
     },
+    // Show modal and update
     async edit(user) {
       const userUpdate = await ModalService.showModal(UserModal, {user});
       if (!userUpdate) return;
       await ApiService.updateUser(userUpdate);
       ToastService.createToast({title: 'Users', text: 'User successfully updated'});
     },
+    // Show modal and create
     async createNew() {
       const userCreate = await ModalService.showModal(UserModal);
       if (!userCreate) return;
@@ -75,6 +79,7 @@ export default {
     },
   },
   watch: {
+    // When the search value changes, add it to the query params
     search(v) {
       const query = pickBy({...this.$route.query, search: v}, identity);
       this.$router.replace({query});

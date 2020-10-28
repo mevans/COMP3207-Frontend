@@ -1,3 +1,4 @@
+<!-- Table to dismiss list of users-->
 <template>
   <table class="table table-striped table-bordered table-hover">
     <thead>

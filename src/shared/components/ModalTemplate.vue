@@ -1,3 +1,4 @@
+<!-- Standardised Modal Template to remove repetition of classes/structure -->
 <template>
   <div class="modal-dialog shadow-lg" role="document">
     <div class="modal-content">

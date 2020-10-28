@@ -1,3 +1,4 @@
+<!-- Page to display list of venues -->
 <template>
   <div class="container venues-container">
     <div class="input-group mb-3">
@@ -45,6 +46,7 @@ export default {
     this.search = this.$route.query['search'] || '';
   },
   methods: {
+    // Show a confirmation and then delete if ok
     async deleteVenue(id) {
       this.deletesInProgress.push(id);
       const confirm = await ModalService.showConfirmationModal({message: 'Are you sure you want to delete this venue?'});
@@ -54,6 +56,7 @@ export default {
       }
       this.deletesInProgress = this.deletesInProgress.filter(i => i !== id);
     },
+    // Show modal and create
     async createNew() {
       const venueCreate = await ModalService.showModal(VenueModal);
       if (!venueCreate) return;
@@ -65,6 +68,7 @@ export default {
     },
   },
   watch: {
+    // When the search value changes, add it to the query params
     search(v) {
       const query = pickBy({...this.$route.query, search: v}, identity);
       this.$router.replace({query});
