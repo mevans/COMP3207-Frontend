@@ -1,7 +1,11 @@
 <template>
   <div id="app-container" class="d-flex">
     <template v-if="initialising">
-      <div class="spinner-border" role="status"></div>
+      <div class="position-absolute top-50 left-50 translate-middle">
+        <div class="spinner-border loading-spinner" role="status"></div>
+        <h4 class="text-center loading-text">If you're reading this then azure is probably taking a while to warm
+          up...</h4>
+      </div>
     </template>
     <template v-else>
       <Sidebar @checkin="checkin" @report="report"></Sidebar>
@@ -66,6 +70,7 @@ export default {
 <style>
 #app-container {
   height: 100%;
+  position: relative;
 }
 
 .form-group {
@@ -75,5 +80,17 @@ export default {
 main {
   width: 100%;
   overflow-y: auto;
+}
+
+.loading-text {
+  max-width: 400px;
+}
+
+.loading-spinner {
+  display: block;
+  margin: 0 auto 1rem;
+  color: var(--bs-primary);
+  width: 50px;
+  height: 50px;
 }
 </style>
