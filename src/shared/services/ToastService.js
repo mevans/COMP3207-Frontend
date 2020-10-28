@@ -1,13 +1,13 @@
 import {v4 as uuid} from 'uuid';
 
 export const ToastService = (() => {
+    let onAdd = () => {
+        throw 'Toast added without initialising the toast service';
+    };
+    let onRemove = () => {
+        throw 'Toast removed without initialising the toast service';
+    };
     let toasts = [];
-    let onAdd = (t) => {
-        console.log(`new toast: ${JSON.stringify(t)}`)
-    };
-    let onRemove = (t) => {
-        console.log(`toast removed: ${JSON.stringify(t)}`)
-    };
     const controller = {
         initialise(_onAdd, _onRemove) {
             onAdd = _onAdd;
