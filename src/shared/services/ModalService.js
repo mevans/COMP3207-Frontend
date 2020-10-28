@@ -28,7 +28,7 @@ export const ModalService = (() => {
             return this.showModal(ConfirmationModal, data);
         },
         dismiss(data) {
-            if (shown) {
+            if (!shown) {
                 throw 'A modal is not currently visible';
             }
             shown = false;
