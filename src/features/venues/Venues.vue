@@ -15,6 +15,7 @@
             tag="button">
           Visitors
         </router-link>
+        <button class="btn btn-outline-dark" @click="edit(venue)">Edit</button>
         <button class="btn btn-outline-danger" @click="deleteVenue(venue.id)">Delete</button>
       </template>
     </Table>
@@ -45,8 +46,9 @@ export default {
     return {
       search: '',
       tableColumns: [
-        {id: 'id', header: 'Id', fn: i => i.id},
         {id: 'name', header: 'Name', fn: i => i.name},
+        {id: 'address', header: 'Address', fn: i => i.address},
+        {id: 'postcode', header: 'Postcode', fn: i => i.postcode},
       ],
     };
   },
@@ -65,6 +67,13 @@ export default {
       if (!confirm) return;
       await ApiService.deleteVenue(id);
       ToastService.createToast({text: 'Venue successfully deleted', title: 'Venues'});
+    },
+    // Show modal and update
+    async edit(venue) {
+      const venueUpdate = await ModalService.showModal(VenueModal, {venue});
+      if (!venueUpdate) return;
+      await ApiService.updateVenue(venueUpdate);
+      ToastService.createToast({title: 'Venues', text: 'Venue successfully updated'});
     },
     // Show modal and create
     async createNew() {

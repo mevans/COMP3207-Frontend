@@ -8,6 +8,14 @@
           <label class="form-label" for="nameInput">Name</label>
           <input id="nameInput" v-model="name" class="form-control" required>
         </div>
+        <div class="form-group">
+          <label class="form-label" for="addressInput">Address</label>
+          <input id="addressInput" v-model="address" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="postcodeInput">Postcode</label>
+          <input id="postcodeInput" v-model="postcode" class="form-control" required>
+        </div>
       </template>
       <template v-slot:footer>
         <button class="btn btn-primary" type="submit">{{ buttonText }}</button>
@@ -31,12 +39,17 @@ export default {
     return {
       create: undefined,
       name: undefined,
+      address: undefined,
+      postcode: undefined,
     };
   },
   mounted() {
     this.create = !this.venue;
     if (!this.create) {
+      this.id = this.venue.id;
       this.name = this.venue.name;
+      this.address = this.venue.address;
+      this.postcode = this.venue.postcode;
     }
   },
   computed: {
@@ -50,7 +63,12 @@ export default {
   methods: {
     submit() {
       // Construct venue object and dismiss
-      const venue = {name: this.name};
+      const venue = {
+        id: this.id,
+        name: this.name,
+        address: this.address,
+        postcode: this.postcode,
+      };
       ModalService.dismiss(venue);
     },
     close() {

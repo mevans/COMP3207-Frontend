@@ -54,6 +54,9 @@ export const ApiService = (() => {
         createVenue(venue) {
             return execute({topic: 'venues', method: 'POST', url: 'venuecreate', data: venue});
         },
+        updateVenue(venue) {
+            return execute({topic: 'venues', method: 'PATCH', url: 'venueupdate', data: venue});
+        },
         deleteVenue(id) {
             return execute({topic: 'venues', method: 'DELETE', url: 'venuedelete', params: {id}});
         },
