@@ -1,6 +1,6 @@
 <!-- Page to display list of checkins, and allow them to be filtered-->
 <template>
-  <div class="container checkins-container">
+  <div class="container">
     <div class="filter border border-bottom-0">
       <div class="row">
         <div class="col">
@@ -145,11 +145,6 @@ export default {
 </script>
 
 <style scoped>
-.checkins-container {
-  padding: 2rem;
-  width: 100%;
-}
-
 .filter {
   padding: 1rem;
 }

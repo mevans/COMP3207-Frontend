@@ -1,5 +1,5 @@
 <template>
-  <div class="container reports-container">
+  <div class="container">
     <template v-if="initialising">
       <div class="position-absolute top-50 left-50 translate-middle">
         <div class="spinner-border loading-spinner" role="status"></div>
@@ -62,8 +62,4 @@ export default {
 </script>
 
 <style scoped>
-.reports-container {
-  padding: 2rem;
-  width: 100%;
-}
 </style>

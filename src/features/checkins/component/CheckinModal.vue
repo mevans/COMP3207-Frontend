@@ -4,49 +4,47 @@
     <ModalTemplate class="modal-lg">
       <template v-slot:title>Check in Group</template>
       <template v-slot:body>
-        <div class="container">
-          <div class="row">
-            <div class="col-7">
-              <h2>Users</h2>
-              <ul class="list-group selected-users-list">
-                <li v-for="user in checkedInUsers" v-bind:key="user.id"
-                    class="list-group-item d-flex justify-content-between">
-                  {{ user.name }}
-                  <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
-                </li>
-              </ul>
+        <div class="row">
+          <div class="col-7">
+            <h2>Users</h2>
+            <ul class="list-group selected-users-list">
+              <li v-for="user in checkedInUsers" v-bind:key="user.id"
+                  class="list-group-item d-flex justify-content-between">
+                {{ user.name }}
+                <button class="btn btn-danger btn-sm" @click="removeUser(user.id)">&minus;</button>
+              </li>
+            </ul>
+            <SearchSelect
+                v-model="currentUser"
+                :display-fn="user => user.name"
+                :items="filteredUsers"
+                :key-fn="user => user.id"
+                class="mb-3"
+                placeholder="Add user...">
+            </SearchSelect>
+            <button :disabled="!currentUser" class="btn btn-primary w-100" type="button" @click="add">Add</button>
+          </div>
+          <div class="col">
+            <h2>Info</h2>
+            <div class="form-group">
+              <label class="form-label" for="venueSelect">Venue</label>
               <SearchSelect
-                  v-model="currentUser"
-                  class="mb-3"
-                  :display-fn="user => user.name"
-                  :items="filteredUsers"
-                  :key-fn="user => user.id"
-                  placeholder="Add user...">
+                  id="venueSelect"
+                  v-model="selectedVenue"
+                  :display-fn="venue => venue.name"
+                  :items="venues"
+                  :key-fn="venue => venue.id"
+                  :required="true"
+                  placeholder="Search Venues...">
               </SearchSelect>
-              <button :disabled="!currentUser" class="btn btn-primary w-100" type="button" @click="add">Add</button>
             </div>
-            <div class="col">
-              <h2>Info</h2>
-              <div class="form-group">
-                <label class="form-label" for="venueSelect">Venue</label>
-                <SearchSelect
-                    id="venueSelect"
-                    v-model="selectedVenue"
-                    :display-fn="venue => venue.name"
-                    :items="venues"
-                    :key-fn="venue => venue.id"
-                    :required="true"
-                    placeholder="Search Venues...">
-                </SearchSelect>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="startDate">Arrive Date</label>
-                <input id="startDate" v-model="arriveDate" class="form-control" required type="date">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="leaveDate">Leave Date</label>
-                <input id="leaveDate" v-model="leaveDate" class="form-control" required type="date">
-              </div>
+            <div class="form-group">
+              <label class="form-label" for="startDate">Arrive Date</label>
+              <input id="startDate" v-model="arriveDate" class="form-control" required type="date">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="leaveDate">Leave Date</label>
+              <input id="leaveDate" v-model="leaveDate" class="form-control" required type="date">
             </div>
           </div>
         </div>
