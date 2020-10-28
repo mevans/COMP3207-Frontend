@@ -7,7 +7,11 @@
     </thead>
     <tbody>
     <tr v-for="item in items" v-bind:key="keyFn(item)">
-      <td v-for="column in columns" v-bind:key="column.id">{{ column.fn(item) }}</td>
+      <td v-for="column in columns" v-bind:key="column.id">
+        <slot :item="item" :name="column.id + '-builder'">
+          {{ column.fn(item) }}
+        </slot>
+      </td>
       <td v-if="$slots.actions" class="button-cell">
         <slot :item="item" name="actions"></slot>
       </td>
