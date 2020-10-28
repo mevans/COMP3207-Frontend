@@ -68,6 +68,9 @@ export const ApiService = (() => {
         reportUser(id) {
             return execute({method: 'POST', url: 'reportpositive', params: {id}});
         },
+        getReports() {
+            return execute({method: 'GET', url: 'generatereport'});
+        }
     };
     return controller;
 })();
