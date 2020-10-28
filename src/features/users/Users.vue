@@ -45,8 +45,10 @@ export default {
     return {
       search: '',
       tableColumns: [
-        {id: 'id', header: 'Id', fn: i => i.id},
         {id: 'name', header: 'Name', fn: i => i.name},
+        {id: 'email', header: 'Email', fn: i => i.email},
+        {id: 'phone', header: 'Phone', fn: i => i.phone},
+        {id: 'address', header: 'Address', fn: i => i.address},
       ],
     }
   },

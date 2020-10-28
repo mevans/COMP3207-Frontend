@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-striped table-bordered table-hover">
+  <table class="table table-striped table-bordered table-hover table-responsive">
     <thead>
     <tr>
       <th v-for="column in columns" v-bind:key="column.id" scope="col">{{ column.header }}</th>
@@ -12,7 +12,7 @@
           {{ column.fn(item) }}
         </slot>
       </td>
-      <td v-if="$slots.actions" class="button-cell">
+      <td v-if="$slots.actions" class="button-cell table-shrink">
         <slot :item="item" name="actions"></slot>
       </td>
     </tr>
@@ -49,5 +49,10 @@ export default {
 
 .button-cell button:last-child {
   margin-right: 0;
+}
+
+table td.table-shrink {
+  white-space: nowrap;
+  width: 1%;
 }
 </style>

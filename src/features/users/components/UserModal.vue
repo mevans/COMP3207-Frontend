@@ -5,12 +5,20 @@
       <template v-slot:title>{{ titleText }}</template>
       <template v-slot:body>
         <div class="form-group">
-          <label class="form-label" for="idInput">Id</label>
-          <input id="idInput" v-model="id" :disabled="true" class="form-control">
-        </div>
-        <div class="form-group">
           <label class="form-label" for="nameInput">Name</label>
           <input id="nameInput" v-model="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="emailInput">Email</label>
+          <input id="emailInput" v-model="email" class="form-control" required type="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phoneInput">Phone</label>
+          <input id="phoneInput" v-model="phone" class="form-control" required type="tel">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="addressInput">Address</label>
+          <input id="addressInput" v-model="address" class="form-control" required>
         </div>
       </template>
       <template v-slot:footer>
@@ -36,6 +44,9 @@ export default {
       create: undefined,
       id: undefined,
       name: undefined,
+      email: undefined,
+      phone: undefined,
+      address: undefined,
     };
   },
   mounted() {
@@ -44,6 +55,9 @@ export default {
     if (!this.create) {
       this.id = this.user.id;
       this.name = this.user.name;
+      this.email = this.user.email;
+      this.phone = this.user.phone;
+      this.address = this.user.address;
     }
   },
   computed: {
@@ -57,7 +71,13 @@ export default {
   methods: {
     // Construct user object and dismiss
     submit() {
-      const user = {id: this.id, name: this.name};
+      const user = {
+        id: this.id,
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        address: this.address,
+      };
       ModalService.dismiss(user);
     },
     close() {
