@@ -48,6 +48,10 @@ export default {
       const checkin = await ModalService.showModal(CheckinModal);
       if (!checkin) return;
       await ApiService.createCheckin(checkin);
+      ToastService.createToast({
+        title: 'Checkins',
+        text: `Checkin with ${checkin.users.length} user(s) successfully created`
+      })
     },
     async report() {
       const user = await ModalService.showModal(ReportModal);
