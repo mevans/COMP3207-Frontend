@@ -1,3 +1,4 @@
+<!-- Main app component-->
 <template>
   <div id="app-container" class="d-flex">
     <template v-if="initialising">

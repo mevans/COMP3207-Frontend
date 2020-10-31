@@ -1,3 +1,4 @@
+<!-- Modals controller component - puts callbacks into modal service and handles showing/dismissing modals-->
 <template>
   <div id="modals-container"></div>
 </template>
@@ -16,15 +17,18 @@ export default {
     }
   },
   mounted() {
+    // Initialise the service with the show/dismiss methods
     ModalService.initialise(this.show, this.dismiss);
 
     this.containerElement = document.getElementById('modals-container');
 
+    // If a model is shown and the key is escape, then dismiss the modal
     document.addEventListener('keydown', e => {
       if (this.modal && e.key === 'Escape') {
         ModalService.dismiss();
       }
     });
+    // If the backdrop is clicked, then dismiss the modal
     document.addEventListener('click', e => {
       if (e.target.classList.contains('modal-backdrop')) {
         ModalService.dismiss();
@@ -33,6 +37,7 @@ export default {
   },
   methods: {
     show(modal, props) {
+      // Create the modal component, add styling / modal backdrop and render it
       this.containerElement.style.display = 'block';
       const vNode = createVNode(modal, props);
       const modalBackdrop = document.createElement('div');
@@ -43,6 +48,7 @@ export default {
       this.modal = el;
     },
     dismiss() {
+      // Remove the elements
       this.containerElement.style.display = 'none';
       render(null, this.modal);
       this.modal.remove();

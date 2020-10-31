@@ -1,3 +1,4 @@
+<!-- Left sidebar component, displays navigation and main action buttons -->
 <template>
   <div class="sidebar bg-light border-right">
     <h2 class="header">Trace & Test</h2>

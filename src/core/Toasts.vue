@@ -1,41 +1,34 @@
+<!-- Toast controller component - puts callbacks into toast service and handles displaying / hiding toasts -->
 <template>
   <div id="toasts-container"></div>
 </template>
 
 <script>
 import {ToastService} from "@/shared/services/ToastService";
-import {createVNode, h} from "@vue/runtime-core";
+import {createVNode} from "@vue/runtime-core";
 import {render} from "@vue/runtime-dom";
+import Toast from "@/shared/components/Toast";
 
 export default {
   name: "Toasts",
   data() {
     return {
       containerElement: undefined,
+      // Store a map of toast ids to their html elements
       toastElements: {},
     }
   },
   mounted() {
+    // Initialise the service with the callbacks
     ToastService.initialise(this.onAdd, this.onRemove);
-
     this.containerElement = document.getElementById('toasts-container');
   },
   methods: {
     onAdd(toast) {
-      const vNode = createVNode({
-        render() {
-          return h('div', {class: 'toast', role: 'alert', style: 'opacity:1; z-index:1'}, [
-            h('div', {class: 'toast-header'}, [
-              h('strong', {class: 'mr-auto'}, toast.title),
-              h('button', {
-                class: 'ml-2 mb-1 btn-close', type: 'button', 'onclick'() {
-                  ToastService.removeToast(toast.id);
-                }
-              })
-            ]),
-            h('div', {class: 'toast-body'}, toast.text),
-          ]);
-        }
+      // Create a toast component with the toast, add a callback to remove if the close button is clicked
+      const vNode = createVNode(Toast, {
+        toast,
+        onClose: () => this.onRemove(toast.id),
       });
       const toastContainer = document.createElement('div');
       toastContainer.style.marginBottom = '0.6rem';
@@ -44,6 +37,7 @@ export default {
       this.toastElements[toast.id] = el;
     },
     onRemove(id) {
+      // Remove the toast element
       const el = this.toastElements[id];
       render(null, el);
       el.remove();

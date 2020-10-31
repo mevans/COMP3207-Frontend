@@ -1,3 +1,4 @@
+<!-- Basic search bar component with clear button -->
 <template>
   <div class="input-group">
     <input :placeholder="placeholder" :value="modelValue" class="form-control"

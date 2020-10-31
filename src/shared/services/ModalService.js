@@ -1,6 +1,8 @@
 import ConfirmationModal from "@/shared/components/ConfirmationModal";
 
+/*Promise based modal service for showing / dismissing dialogs*/
 export const ModalService = (() => {
+    // Default show/dismiss functions, should be overridden by the modal controller component
     let onShow = () => {
         throw 'Modal shown without initialising the modal service';
     };
@@ -20,6 +22,7 @@ export const ModalService = (() => {
             }
             shown = true;
             onShow(m, props);
+            // Store the resolve function in the service, which can then be resolved with the dismiss function
             return new Promise((_resolve) => {
                 resolve = _resolve;
             });

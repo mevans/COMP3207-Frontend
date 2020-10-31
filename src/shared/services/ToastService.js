@@ -1,6 +1,7 @@
 import {v4 as uuid} from 'uuid';
-
+/* Service for displaying toasts - messages which don't require interaction */
 export const ToastService = (() => {
+    // Default add/remove functions, should be overridden by the toast controller component
     let onAdd = () => {
         throw 'Toast added without initialising the toast service';
     };
@@ -14,6 +15,7 @@ export const ToastService = (() => {
             onRemove = _onRemove;
         },
         createToast(toast) {
+            // Create a toast, then after the duration then remove it
             const id = uuid();
             toast = {
                 ...{

@@ -9,8 +9,11 @@ const client = axios.create({
     },
 });
 
+/* Service for communicating with the api*/
 export const ApiService = (() => {
+    /* Api calls can have topics eg. users, checkins etc. here we can add listeners to those topics, to do something after an api call is done on them*/
     const listeners = {};
+    /* Basic axios wrapper which also triggers a listener for the topic and returns the data*/
     const execute = ({method, url, topic, data = {}, params = {}}) => {
         return client({
             method,
@@ -36,6 +39,7 @@ export const ApiService = (() => {
             return execute({method: 'GET', url: 'userread', params: {id}});
         },
         createUser(user) {
+            // Here a topic is specified, so if a listener is added for 'users', then it will be called after this request has completed
             return execute({topic: 'users', method: 'POST', url: 'usercreate', data: user});
         },
         updateUser(user) {
