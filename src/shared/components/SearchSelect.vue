@@ -133,5 +133,7 @@ export default {
 .dropdown-menu {
   top: unset;
   left: unset;
+  max-height: 10rem;
+  overflow-y: auto;
 }
 </style>
