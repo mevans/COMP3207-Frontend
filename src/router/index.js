@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Home from "../features/home/Home";
 import Users from "@/features/users/Users";
 import Venues from "@/features/venues/Venues";
 import Checkins from "@/features/checkins/Checkins";
@@ -8,11 +7,7 @@ import Reports from "@/features/reports/Reports";
 const routes = [
     {
         path: '/',
-        redirect: '/home',
-    },
-    {
-        path: '/home',
-        component: Home,
+        redirect: '/users',
     },
     {
         path: '/users',

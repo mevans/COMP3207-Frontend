@@ -6,7 +6,6 @@ export default {
   name: "Nav",
   render() {
     const navItems = [
-      {path: '/home', title: 'Home'},
       {path: '/users', title: 'Users'},
       {path: '/venues', title: 'Venues'},
       {path: '/checkins', title: 'Checkins'},
