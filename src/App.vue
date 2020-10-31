@@ -61,9 +61,9 @@ export default {
     },
     async report() {
       // Show the report modal, create if modal not dismissed and show toast
-      const user = await ModalService.showModal(ReportModal);
-      if (!user) return;
-      await ApiService.reportUser(user);
+      const report = await ModalService.showModal(ReportModal);
+      if (!report) return;
+      await ApiService.reportUser(report);
       ToastService.createToast({title: 'Reported Positive', text: 'User successfully reported positive for COVID-19'});
     }
   }

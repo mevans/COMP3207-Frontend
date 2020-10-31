@@ -8,6 +8,10 @@
           <SearchSelect id="userSelect" v-model="selectedUser" :display-fn="user => user.name" :items="users"
                         :key-fn="user => user.id" placeholder="Search User..."></SearchSelect>
         </div>
+        <div class="form-group">
+          <label class="form-label" for="reportDateInput">Report Date</label>
+          <input id="reportDateInput" v-model="date" class="form-control" required type="date">
+        </div>
       </template>
       <template v-slot:footer>
         <button :disabled="!selectedUser" class="btn btn-danger" type="submit">Report</button>
@@ -37,12 +41,20 @@ export default {
   data() {
     return {
       selectedUser: undefined,
+      date: undefined,
     };
+  },
+  mounted() {
+    this.date = new Date().toISOString().split('T')[0];
   },
   methods: {
     report() {
-      // Dismiss with the selected user, if no user is selected this is the same as cancelling
-      ModalService.dismiss(this.selectedUser);
+      const report = {
+        user: this.selectedUser,
+        date: this.date,
+      };
+      // Dismiss with the user and the date
+      ModalService.dismiss(report);
     },
     close() {
       ModalService.dismiss();

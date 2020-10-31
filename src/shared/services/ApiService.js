@@ -68,8 +68,8 @@ export const ApiService = (() => {
             return execute({topic: 'checkins', method: 'POST', url: 'checkincreate', data: checkin});
         },
         /* Reports */
-        reportUser(id) {
-            return execute({method: 'POST', url: 'reportpositive', params: {id}});
+        reportUser(report) {
+            return execute({method: 'POST', url: 'reportpositive', data: report});
         },
         getReports() {
             return execute({method: 'GET', url: 'generatereport'});
