@@ -2,7 +2,7 @@
 <template>
   <div class="input-group">
     <input :placeholder="placeholder" :value="modelValue" class="form-control"
-           @input="$emit('update:modelValue', $event.target.value)">
+           @input="$emit('update:modelValue', $event.target.value.trim())">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" @click="clear">&times;</button>
     </div>
