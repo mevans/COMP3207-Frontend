@@ -28,21 +28,18 @@
         </div>
       </div>
     </div>
-    <CheckinsTable :checkins="filteredCheckins" :sort="sort" @col="toggleSortByCol"></CheckinsTable>
+    <Table :columns="tableColumns" :items="filteredCheckins" :keyFn="checkin => checkin.id" :sort="sort"
+           sortable @col="toggleSortByCol"></Table>
   </div>
 </template>
 
 <script>
 import {Selectors} from "@/shared/services/Store";
-import CheckinsTable from "@/features/checkins/component/CheckinsTable";
 import {identity, orderBy, pickBy} from "lodash";
 import {sortQueryMixin} from "@/shared/mixins/SortQuery";
 
 export default {
   name: "Checkins",
-  components: {
-    CheckinsTable,
-  },
   mixins: [
     sortQueryMixin,
   ],
@@ -59,6 +56,12 @@ export default {
       filterUser: undefined,
       filterStartDate: undefined,
       filterEndDate: undefined,
+      tableColumns: [
+        {id: 'venue', header: 'Venue', fn: i => i.venue},
+        {id: 'user', header: 'User', fn: i => i.user},
+        {id: 'arrive', header: 'Arrive', fn: i => i.arrive},
+        {id: 'leave', header: 'Leave', fn: i => i.leave},
+      ]
     }
   },
   mounted() {

@@ -3,7 +3,15 @@
   <table class="table table-striped table-bordered table-hover table-responsive">
     <thead>
     <tr>
-      <th v-for="column in columns" v-bind:key="column.id" scope="col">{{ column.header }}</th>
+      <th v-for="column in columns" v-bind:key="column.id" :class="{'sortable-header': sortable}" scope="col"
+          @click="$emit('col', column.id)">
+        {{ column.header }}
+        <template v-if="sortable">
+          <div v-if="sort === ''">-</div>
+          <div v-if="sort === column.id">∧</div>
+          <div v-if="sort === '-' + column.id">∨</div>
+        </template>
+      </th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +35,16 @@
 export default {
   name: "Table",
   props: {
+    // If this table should be sortable
+    sortable: {
+      type: Boolean,
+      default: false,
+    },
+    // The current sort
+    sort: {
+      type: String,
+      default: () => '',
+    },
     // List of items
     items: {
       type: Array,
@@ -44,11 +62,25 @@ export default {
         {id: 'example', header: 'Example column header', fn: i => i.name},
       ],
     }
-  }
+  },
+  emits: ['col'],
 }
 </script>
 
 <style>
+th {
+  pointer-events: none;
+}
+
+.sortable-header {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.sortable-header div {
+  float: right;
+}
+
 .button-cell * {
   margin-right: 1rem;
 }
