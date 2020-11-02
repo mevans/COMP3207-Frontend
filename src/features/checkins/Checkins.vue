@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <CheckinsTable :checkins="filteredCheckins" :sort="sort" @col="sortByCol"></CheckinsTable>
+    <CheckinsTable :checkins="filteredCheckins" :sort="sort" @col="toggleSortByCol"></CheckinsTable>
   </div>
 </template>
 
@@ -36,12 +36,16 @@
 import {Selectors} from "@/shared/services/Store";
 import CheckinsTable from "@/features/checkins/component/CheckinsTable";
 import {identity, orderBy, pickBy} from "lodash";
+import {sortQueryMixin} from "@/shared/mixins/SortQuery";
 
 export default {
   name: "Checkins",
   components: {
     CheckinsTable,
   },
+  mixins: [
+    sortQueryMixin,
+  ],
   setup() {
     return {
       checkins: Selectors.nestedCheckins,
@@ -55,7 +59,6 @@ export default {
       filterUser: undefined,
       filterStartDate: undefined,
       filterEndDate: undefined,
-      sort: undefined,
     }
   },
   mounted() {
@@ -64,7 +67,6 @@ export default {
     this.filterUser = this.$route.query['user'];
     this.filterStartDate = this.$route.query['start'];
     this.filterEndDate = this.$route.query['end'];
-    this.sort = this.$route.query['sort'] || '';
   },
   computed: {
     // Filter checkins by filter data
@@ -82,9 +84,7 @@ export default {
         user: checkin.user.name,
       }));
       if (!this.sort) return flattenedCheckins;
-      const order = !this.sort.startsWith('-') ? 'asc' : 'desc';
-      const field = this.sort.replace(/^-/, ''); // Remove first character if its a dash
-      return orderBy(flattenedCheckins, [field], [order]);
+      return orderBy(flattenedCheckins, [this.sortField], [this.sortOrder]);
     }
   },
   watch: {
@@ -101,9 +101,6 @@ export default {
     filterEndDate() {
       this.updateQueryParams();
     },
-    sort() {
-      this.updateQueryParams();
-    }
   },
   methods: {
     // Put the variables into the query params
@@ -114,7 +111,6 @@ export default {
           user: this.filterUser,
           start: this.filterStartDate,
           end: this.filterEndDate,
-          sort: this.sort,
         },
       }, identity);
       this.$router.replace({query});
@@ -126,20 +122,6 @@ export default {
       this.filterStartDate = undefined;
       this.filterEndDate = undefined;
     },
-    // Called when a column is clicked, handles transformation of asc -> desc -> no sorting
-    sortByCol(col) {
-      if (!this.sort.endsWith(col)) {
-        this.sort = col;
-      } else {
-        // Toggle direction
-        const ascending = !this.sort.startsWith('-');
-        if (ascending) {
-          this.sort = `-${col}`;
-        } else {
-          this.sort = '';
-        }
-      }
-    }
   }
 }
 </script>
