@@ -8,8 +8,8 @@
         {{ column.header }}
         <template v-if="sortable">
           <div v-if="sort === ''">-</div>
-          <div v-if="sort === column.id">∧</div>
-          <div v-if="sort === '-' + column.id">∨</div>
+          <div v-if="sort === column.id">▲</div>
+          <div v-if="sort === '-' + column.id">▼</div>
         </template>
       </th>
     </tr>
