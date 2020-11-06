@@ -45,8 +45,15 @@ export default {
   mounted() {
     Store.initialise();
     // When an api call finishes with this topic, do this with the store..
-    ApiService.addListener('users', Store.refreshUsers);
-    ApiService.addListener('venues', Store.refreshVenues);
+    // As user/venue deletes cascade to delete any related checkins, checkins have to be refreshed when those change
+    ApiService.addListener('users', () => {
+      Store.refreshUsers();
+      Store.refreshCheckins();
+    });
+    ApiService.addListener('venues', () => {
+      Store.refreshVenues();
+      Store.refreshCheckins();
+    });
     ApiService.addListener('checkins', Store.refreshCheckins);
   },
   methods: {
