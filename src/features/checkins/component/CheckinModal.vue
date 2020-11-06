@@ -20,9 +20,12 @@
                 :items="filteredUsers"
                 :key-fn="user => user.id"
                 class="mb-3"
-                placeholder="Add user...">
+                placeholder="Search Users...">
             </SearchSelect>
             <button :disabled="!currentUser" class="btn btn-primary w-100" type="button" @click="add">Add</button>
+            <div class="small text-muted mt-2">To include multiple users in the check in, select a user and click the
+              Add button, to add them to the group
+            </div>
           </div>
           <div class="col">
             <h2>Info</h2>
@@ -50,7 +53,9 @@
         </div>
       </template>
       <template v-slot:footer>
-        <button :disabled="checkedInUserIds.length === 0" class="btn btn-primary" type="submit">Check in</button>
+        <button :disabled="checkedInUserIds.length === 0 && !currentUser" class="btn btn-primary" type="submit">
+          Check in <span v-if="usersToCheckin.length">{{ usersToCheckin.length }} user(s)</span>
+        </button>
         <button class="btn btn-secondary" type="button" @click="close">Close</button>
       </template>
     </ModalTemplate>
@@ -93,6 +98,11 @@ export default {
       // Transform user ids to user objects
       return this.checkedInUserIds.map(id => this.users.find(u => u.id === id)).filter(v => !!v);
     },
+    usersToCheckin() {
+      if (this.checkedInUserIds.length) return this.checkedInUserIds;
+      if (this.currentUser) return [this.currentUser];
+      return [];
+    },
   },
   methods: {
     // Add the user in the dropdown to the list of added users
@@ -107,8 +117,10 @@ export default {
     },
     // Construct the checkin object and dismiss
     submit() {
+      // If there is a list of users to checkin, use that. Otherwise use the currently selected user
+      const users = this.usersToCheckin;
       const checkin = {
-        users: this.checkedInUserIds,
+        users,
         venue: this.selectedVenue,
         arrive: this.arriveDate,
         leave: this.leaveDate,
