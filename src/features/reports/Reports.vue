@@ -10,7 +10,7 @@
     </template>
     <template v-else>
       <SearchBar v-model="search" class="mb-3"></SearchBar>
-      <Table :columns="tableColumns" :items="sortedItems" :key-fn="i => i.id" :sort="this.sort" sortable
+      <Table :columns="tableColumns" :items="sortedItems" :key-fn="i => i.id" :sort="sort" sortable
              @col="toggleSortByCol"></Table>
     </template>
   </div>

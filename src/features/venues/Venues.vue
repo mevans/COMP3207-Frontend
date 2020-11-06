@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <SearchBar v-model="search" class="mb-3"></SearchBar>
-    <Table :columns="tableColumns" :items="sortedItems" :key-fn="venue => venue.id" :sort="this.sort" sortable
+    <Table :columns="tableColumns" :items="sortedItems" :key-fn="venue => venue.id" :sort="sort" sortable
            @col="toggleSortByCol">
       <template v-slot:actions="{item: venue}">
         <router-link
