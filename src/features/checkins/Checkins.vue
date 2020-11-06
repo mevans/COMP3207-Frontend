@@ -28,14 +28,14 @@
         </div>
       </div>
     </div>
-    <Table :columns="tableColumns" :items="filteredCheckins" :keyFn="checkin => checkin.id" :sort="sort"
+    <Table :columns="tableColumns" :items="sortedItems" :keyFn="checkin => checkin.id" :sort="sort"
            sortable @col="toggleSortByCol"></Table>
   </div>
 </template>
 
 <script>
 import {Selectors} from "@/shared/services/Store";
-import {identity, orderBy, pickBy} from "lodash";
+import {identity, pickBy} from "lodash";
 import {sortQueryMixin} from "@/shared/mixins/SortQuery";
 
 export default {
@@ -72,8 +72,7 @@ export default {
     this.filterEndDate = this.$route.query['end'];
   },
   computed: {
-    // Filter checkins by filter data
-    filteredCheckins() {
+    itemsToSort() {
       const filteredCheckins = this.checkins.filter(checkin => {
         const venueCorrect = !this.filterVenue || checkin.venue.id === this.filterVenue;
         const userCorrect = !this.filterUser || checkin.user.id === this.filterUser;
@@ -81,13 +80,11 @@ export default {
         const dateCorrect = emptyDates || (new Date(checkin.arrive) >= new Date(this.filterStartDate) && new Date(checkin.leave) <= new Date(this.filterEndDate));
         return venueCorrect && userCorrect && dateCorrect;
       });
-      const flattenedCheckins = filteredCheckins.map(checkin => ({
+      return filteredCheckins.map(checkin => ({
         ...checkin,
         venue: checkin.venue.name,
         user: checkin.user.name,
       }));
-      if (!this.sort) return flattenedCheckins;
-      return orderBy(flattenedCheckins, [this.sortField], [this.sortOrder]);
     }
   },
   watch: {

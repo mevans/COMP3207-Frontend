@@ -19,11 +19,13 @@
 import {ApiService} from "@/shared/services/ApiService";
 import {Selectors} from "@/shared/services/Store";
 import {basicSearchQueryMixin} from "@/shared/mixins/BasicSearchQuery";
+import {sortQueryMixin} from "@/shared/mixins/SortQuery";
 
 export default {
   name: "Reports",
   mixins: [
     basicSearchQueryMixin,
+    sortQueryMixin,
   ],
   setup() {
     return {

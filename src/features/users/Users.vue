@@ -2,7 +2,8 @@
 <template>
   <div class="container">
     <SearchBar v-model="search" class="mb-3"></SearchBar>
-    <Table :columns="tableColumns" :items="filteredUsers" :key-fn="user => user.id">
+    <Table :columns="tableColumns" :items="sortedItems" :key-fn="user => user.id" :sort="this.sort" sortable
+           @col="toggleSortByCol">
       <template v-slot:actions="{item: user}">
         <router-link
             :to="{name: 'Checkins', query: {user: user.id}}"
@@ -25,11 +26,13 @@ import UserModal from "@/features/users/components/UserModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
 import {basicSearchQueryMixin} from "@/shared/mixins/BasicSearchQuery";
+import {sortQueryMixin} from "@/shared/mixins/SortQuery";
 
 export default {
   name: "Users",
   mixins: [
     basicSearchQueryMixin,
+    sortQueryMixin,
   ],
   setup() {
     return {
@@ -47,9 +50,9 @@ export default {
     }
   },
   computed: {
-    filteredUsers() {
+    itemsToSort() {
       return this.users.filter(user => user.name.toLowerCase().includes(this.search.toLowerCase()));
-    }
+    },
   },
   methods: {
     // Show a confirmation and then delete if they ok it

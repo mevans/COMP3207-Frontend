@@ -1,4 +1,4 @@
-import {identity, pickBy} from "lodash";
+import {identity, orderBy, pickBy} from "lodash";
 /* Allow pages to easily implement sorting which sets a query param to the url, and reads from it when the page is loaded*/
 export const sortQueryMixin = {
     data() {
@@ -24,6 +24,15 @@ export const sortQueryMixin = {
         sortField() {
             return this.sort.replace(/^-/, ''); // Remove first character if its a dash
         },
+        // The components which use this mixin should override this computed property
+        itemsToSort() {
+            return [];
+        },
+        // This sorted list of items which should be used as an output by the component which implements this mixin
+        sortedItems() {
+            if (!this.sortField) return this.itemsToSort;
+            return orderBy(this.itemsToSort, [this.sortField], [this.sortOrder]);
+        }
     },
     methods: {
         toggleSortByCol(col) {
