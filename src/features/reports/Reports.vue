@@ -10,7 +10,8 @@
     </template>
     <template v-else>
       <SearchBar v-model="search" class="mb-3"></SearchBar>
-      <Table :columns="tableColumns" :items="usersToIsolate" :key-fn="i => i.id"></Table>
+      <Table :columns="tableColumns" :items="sortedItems" :key-fn="i => i.id" :sort="this.sort" sortable
+             @col="toggleSortByCol"></Table>
     </template>
   </div>
 </template>
@@ -48,7 +49,7 @@ export default {
     this.fetchReports();
   },
   computed: {
-    usersToIsolate() {
+    itemsToSort() {
       return this.userIds.map(id => this.users.find(u => u.id === id))
           .filter(u => !!u)
           .filter(u => Object.values(u).toString().toLowerCase().includes(this.search.toLowerCase()));

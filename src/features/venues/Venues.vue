@@ -2,7 +2,8 @@
 <template>
   <div class="container">
     <SearchBar v-model="search" class="mb-3"></SearchBar>
-    <Table :columns="tableColumns" :items="filteredVenues" :key-fn="venue => venue.id">
+    <Table :columns="tableColumns" :items="sortedItems" :key-fn="venue => venue.id" :sort="this.sort" sortable
+           @col="toggleSortByCol">
       <template v-slot:actions="{item: venue}">
         <router-link
             :to="{name: 'Checkins', query: {venue: venue.id}}"
@@ -25,11 +26,13 @@ import VenueModal from "@/features/venues/components/VenueModal";
 import {Selectors} from "@/shared/services/Store";
 import {ApiService} from "@/shared/services/ApiService";
 import {basicSearchQueryMixin} from "@/shared/mixins/BasicSearchQuery";
+import {sortQueryMixin} from "@/shared/mixins/SortQuery";
 
 export default {
   name: "Venues",
   mixins: [
     basicSearchQueryMixin,
+    sortQueryMixin,
   ],
   setup() {
     return {
@@ -46,7 +49,7 @@ export default {
     };
   },
   computed: {
-    filteredVenues() {
+    itemsToSort() {
       return this.venues.filter(venue => venue.name.toLowerCase().includes(this.search.toLowerCase()));
     }
   },
